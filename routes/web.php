@@ -38,3 +38,8 @@ Route::group(
         Route::get('/', [App\Http\Controllers\BO\HomeController::class, 'index'])->name('home');
     }
 );
+
+
+Route::get('/', function() {
+    return 'Silence is gold';
+});
