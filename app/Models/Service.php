@@ -36,4 +36,28 @@ class Service extends Model
         return $this->hasMany(ServiceOffer::class);
     }
 
+    /**
+     * Get the API keys for the service.
+     */
+    public function apiKeys()
+    {
+        return $this->hasMany(ApiKey::class);
+    }
+
+    /**
+     * Get only active API keys for the service.
+     */
+    public function activeApiKeys()
+    {
+        return $this->hasMany(ApiKey::class)->active();
+    }
+
+    /**
+     * Get only valid (active and not expired) API keys for the service.
+     */
+    public function validApiKeys()
+    {
+        return $this->hasMany(ApiKey::class)->valid();
+    }
+
 }
