@@ -21,16 +21,6 @@ use App\Http\Controllers\API\V1\TransactionController;
 // API Version 1
 Route::prefix('v1')->group(function () {
     
-    // Test endpoint
-    Route::get('/test', [TestController::class, 'index'])->name('api.test');
-    Route::post('/test', [TestController::class, 'store'])->name('api.test.store');
-    
-    // Public endpoints (no authentication required)
-    Route::prefix('public')->group(function () {
-        Route::get('/services', [ServiceController::class, 'index'])->name('api.services.index');
-        Route::get('/services/{id}', [ServiceController::class, 'show'])->name('api.services.show');
-    });
-    
     // Protected endpoints (require API authentication)
     Route::middleware(['api.rate_limit', 'api.key'])->group(function () {
         
