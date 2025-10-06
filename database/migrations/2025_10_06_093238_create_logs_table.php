@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('subscriber_id')->nullable();
             $table->foreign('subscriber_id')->references('id')->on('subscribers')->onDelete('set null');
 
+            $table->unsignedBigInteger('subscription_id')->nullable();
+            $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('set null');
+
             $table->unsignedBigInteger('service_id')->nullable();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
 
