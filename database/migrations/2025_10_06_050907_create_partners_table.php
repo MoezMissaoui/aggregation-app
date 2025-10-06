@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
+            $table->uuid('partner_id')->unique()->default(DB::raw('(UUID())'));
+            $table->string('partner_secret')->unique();
             $table->string('name');
-            $table->string('partner_id')->unique();
             $table->text('description')->nullable();
             $table->text('billing_adress')->nullable();
             $table->text('contacts')->nullable();

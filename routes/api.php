@@ -36,6 +36,14 @@ Route::prefix('v1')->group(function () {
 
 // Health check endpoint
 Route::get('/health', function () {
+
+    dd(
+        encrypt_sensitive('testrfgrfeqfzefzef', 'dfgrdgdfgergrtd'),
+        decrypt_sensitive(encrypt_sensitive('testrfgrfeqfzefzef', 'dfgrdgdfgergrtd'), 'dfgrdgdfgergrtd'),
+
+
+    );
+
     return response()->json([
         'status' => 'ok',
         'timestamp' => now(),

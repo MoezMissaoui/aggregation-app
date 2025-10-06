@@ -17,7 +17,8 @@ class PartnerSeeder extends Seeder
         $partners = [
             [
                 'name' => 'NewsHub Media',
-                'partner_id' => 'PARTNER_001',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440001',
+                'partner_secret' => encrypt_sensitive('5ft55gyawcc96iop', config('app.encryption_key')),
                 'description' => 'Leading news and media content provider specializing in real-time news updates and weather alerts',
                 'billing_adress' => '123 Media Plaza, News District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
@@ -42,7 +43,8 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'SportsTech Solutions',
-                'partner_id' => 'PARTNER_002',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440002',
+                'partner_secret' => encrypt_sensitive('89tyu5hg99yui10', config('app.encryption_key')),
                 'description' => 'Sports and entertainment content aggregator providing live scores, match updates, and celebrity news',
                 'billing_adress' => '456 Sports Avenue, Plateau District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
@@ -67,7 +69,8 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'FinanceWise Analytics',
-                'partner_id' => 'PARTNER_003',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440003',
+                'partner_secret' => encrypt_sensitive('aert41525gr87yudf', config('app.encryption_key')),
                 'description' => 'Financial market data provider offering real-time market updates, health tips, and wellness content',
                 'billing_adress' => '789 Finance Tower, Business District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
@@ -92,7 +95,8 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'Global Content Network',
-                'partner_id' => 'PARTNER_004',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440004',
+                'partner_secret' => encrypt_sensitive('aert41525gr87yu25', config('app.encryption_key')),
                 'description' => 'International content distribution network providing diverse digital services across multiple verticals',
                 'billing_adress' => '321 Global Street, International Zone, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
@@ -117,7 +121,8 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'Legacy Systems Inc',
-                'partner_id' => 'PARTNER_LEGACY',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440005',
+                'partner_secret' => encrypt_sensitive('12rt41525gr87yu25', config('app.encryption_key')),
                 'description' => 'Legacy partner with outdated systems - used for testing backward compatibility',
                 'billing_adress' => '999 Old Tech Road, Legacy District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
@@ -139,7 +144,8 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'Test Partner Sandbox',
-                'partner_id' => 'PARTNER_SANDBOX',
+                'partner_id' => '550e8400-e29b-41d4-a716-446655440006',
+                'partner_secret' => encrypt_sensitive('12rt41uytgr87yu25', config('app.encryption_key')),
                 'description' => 'Sandbox environment partner for development and testing purposes',
                 'billing_adress' => '000 Sandbox Avenue, Test Environment, Dev City',
                 'contacts' => json_encode([
@@ -172,11 +178,11 @@ class PartnerSeeder extends Seeder
         $this->command->info('Created ' . count($partners) . ' partners with comprehensive data.');
         $this->command->info('');
         $this->command->info('Test credentials:');
-        $this->command->info('NewsHub Media: partner_id=PARTNER_001, partner_secret=secret123');
-        $this->command->info('SportsTech Solutions: partner_id=PARTNER_002, partner_secret=secret456');
-        $this->command->info('FinanceWise Analytics: partner_id=PARTNER_003, partner_secret=finance789');
-        $this->command->info('Global Content Network: partner_id=PARTNER_004, partner_secret=global2024');
-        $this->command->info('Test Partner Sandbox: partner_id=PARTNER_SANDBOX, partner_secret=sandbox_test');
-        $this->command->info('Legacy Systems (INACTIVE): partner_id=PARTNER_LEGACY, partner_secret=legacy_old');
+        $this->command->info('NewsHub Media: partner_id=550e8400-e29b-41d4-a716-446655440001, partner_secret=secret123');
+        $this->command->info('SportsTech Solutions: partner_id=550e8400-e29b-41d4-a716-446655440002, partner_secret=secret456');
+        $this->command->info('FinanceWise Analytics: partner_id=550e8400-e29b-41d4-a716-446655440003, partner_secret=finance789');
+        $this->command->info('Global Content Network: partner_id=550e8400-e29b-41d4-a716-446655440004, partner_secret=global2024');
+        $this->command->info('Test Partner Sandbox: partner_id=550e8400-e29b-41d4-a716-446655440006, partner_secret=sandbox_test');
+        $this->command->info('Legacy Systems (INACTIVE): partner_id=550e8400-e29b-41d4-a716-446655440005, partner_secret=legacy_old');
     }
 }

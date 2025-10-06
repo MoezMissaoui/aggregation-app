@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PartnerSeeder::class,      // First: Create partners
             ServiceSeeder::class,      // Second: Create services (depends on partners)
-            ApiKeySeeder::class,       // Third: Create API keys (depends on services)
             ServiceOfferSeeder::class, // Fourth: Create service offers (depends on services and operators)
         ]);
 
@@ -25,7 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Database has been seeded with:');
         $this->command->info('- Partners (6 partners including test and sandbox environments)');
         $this->command->info('- Services (8 services across different categories)');
-        $this->command->info('- API Keys (multiple keys per service with different permissions)');
         $this->command->info('- Service Offers (comprehensive offers across all operators)');
     }
 }

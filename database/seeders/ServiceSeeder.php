@@ -15,9 +15,9 @@ class ServiceSeeder extends Seeder
     public function run(): void
     {
         // Get partners to link services to
-        $partner1 = Partner::where('partner_id', 'PARTNER_001')->first();
-        $partner2 = Partner::where('partner_id', 'PARTNER_002')->first();
-        $partner3 = Partner::where('partner_id', 'PARTNER_003')->first();
+        $partner1 = Partner::where('partner_id', '550e8400-e29b-41d4-a716-446655440001')->first();
+        $partner2 = Partner::where('partner_id', '550e8400-e29b-41d4-a716-446655440002')->first();
+        $partner3 = Partner::where('partner_id', '550e8400-e29b-41d4-a716-446655440003')->first();
 
         $services = [
             [
