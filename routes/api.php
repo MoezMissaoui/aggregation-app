@@ -3,9 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\TestController;
-use App\Http\Controllers\API\V1\ServiceController;
-use App\Http\Controllers\API\V1\SubscriptionController;
-use App\Http\Controllers\API\V1\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,34 +17,10 @@ use App\Http\Controllers\API\V1\TransactionController;
 
 // API Version 1
 Route::prefix('v1')->group(function () {
-    
+
     // Protected endpoints (require API authentication)
     Route::middleware(['api.rate_limit', 'api.key'])->group(function () {
         
-        // API info
-        Route::get('/user', function (Request $request) {
-            return response()->json([
-                'success' => true,
-                'message' => 'API authenticated successfully',
-                'data' => [
-                    'api_key_used' => $request->get('api_key_used'),
-                    'timestamp' => now(),
-                    'version' => config('api.version.current', '1.0.0')
-                ]
-            ]);
-        });
-        
-        // Services management
-        Route::apiResource('services', ServiceController::class)->except(['index', 'show']);
-        
-        // Subscriptions management
-        Route::apiResource('subscriptions', SubscriptionController::class);
-        Route::post('/subscriptions/{id}/activate', [SubscriptionController::class, 'activate'])->name('api.subscriptions.activate');
-        Route::post('/subscriptions/{id}/deactivate', [SubscriptionController::class, 'deactivate'])->name('api.subscriptions.deactivate');
-        
-        // Transactions management
-        Route::apiResource('transactions', TransactionController::class)->only(['index', 'show', 'store']);
-        Route::get('/transactions/subscriber/{subscriberId}', [TransactionController::class, 'bySubscriber'])->name('api.transactions.by_subscriber');
         
     });
     
