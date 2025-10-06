@@ -1,47 +1,88 @@
-@extends('layouts.app')
+@extends('bo.layouts.auth', ['title' => 'Réinitialiser le mot de passe'])
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner py-6">
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center mb-6">
+                <a href="{{ route('bo.home') }}" class="app-brand-link">
+                  <span class="app-brand-logo demo">
+                    <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                        fill="#7367F0" />
+                      <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                        fill="#161616" />
+                      <path
+                        opacity="0.06"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                        fill="#161616" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                        fill="#7367F0" />
+                    </svg>
+                  </span>
+                  <span class="app-brand-text demo text-heading fw-bold">{{ config('app.name') }}</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-1">Mot de passe oublié ? 🔒</h4>
+              <p class="mb-6">Saisissez votre e-mail et nous vous enverrons les instructions pour réinitialiser votre mot de passe</p>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+              @if (session('status'))
+                  <div class="alert alert-success mb-6" role="alert">
+                      {{ session('status') }}
+                  </div>
+              @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
-                        @csrf
+              <form id="formAuthentication" class="mb-4" method="POST" action="{{ route('password.email') }}">
+                @csrf
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="mb-6">
+                  <label for="email" class="form-label">Adresse e-mail</label>
+                  <input
+                    type="email"
+                    class="form-control @error('email') is-invalid @enderror"
+                    id="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="Saisissez votre e-mail"
+                    required
+                    autofocus />
+                  @error('email')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
                 </div>
+
+                <div class="mb-6">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Envoyer le lien de réinitialisation</button>
+                </div>
+              </form>
+
+              <div class="text-center">
+                <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
+                  <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
+                  Retour à la connexion
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 @endsection
