@@ -13,66 +13,151 @@ class PartnerSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test partners
+        // Create comprehensive test partners
         $partners = [
             [
-                'name' => 'Test Partner 1',
+                'name' => 'NewsHub Media',
                 'partner_id' => 'PARTNER_001',
-                'partner_secret' => 'secret123', // Will be hashed by the model mutator
-                'description' => 'Test partner for API authentication',
-                'billing_adress' => '123 Test Street, Test City, TC 12345',
+                'description' => 'Leading news and media content provider specializing in real-time news updates and weather alerts',
+                'billing_adress' => '123 Media Plaza, News District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
-                    'phone' => '+1234567890',
-                    'email' => 'contact@testpartner1.com'
+                    'phone' => '+225-01-23-45-67',
+                    'email' => 'contact@newshub.ci',
+                    'fax' => '+225-01-23-45-68'
                 ]),
                 'commercial_contacts' => json_encode([
-                    'name' => 'John Doe',
-                    'email' => 'john.doe@testpartner1.com',
-                    'phone' => '+1234567891'
+                    'name' => 'Kouadio Jean-Baptiste',
+                    'email' => 'commercial@newshub.ci',
+                    'phone' => '+225-01-23-45-69',
+                    'position' => 'Commercial Director'
                 ]),
                 'technical_contacts' => json_encode([
-                    'name' => 'Jane Smith',
-                    'email' => 'jane.smith@testpartner1.com',
-                    'phone' => '+1234567892'
+                    'name' => 'Aminata Traoré',
+                    'email' => 'tech@newshub.ci',
+                    'phone' => '+225-01-23-45-70',
+                    'position' => 'Technical Lead'
                 ]),
-                'url' => 'https://testpartner1.com',
+                'url' => 'https://newshub.ci',
                 'is_active' => true,
             ],
             [
-                'name' => 'Test Partner 2',
+                'name' => 'SportsTech Solutions',
                 'partner_id' => 'PARTNER_002',
-                'partner_secret' => 'secret456', // Will be hashed by the model mutator
-                'description' => 'Second test partner for API authentication',
-                'billing_adress' => '456 Demo Avenue, Demo City, DC 67890',
+                'description' => 'Sports and entertainment content aggregator providing live scores, match updates, and celebrity news',
+                'billing_adress' => '456 Sports Avenue, Plateau District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
-                    'phone' => '+0987654321',
-                    'email' => 'contact@testpartner2.com'
+                    'phone' => '+225-02-34-56-78',
+                    'email' => 'contact@sportstech.ci',
+                    'fax' => '+225-02-34-56-79'
                 ]),
                 'commercial_contacts' => json_encode([
-                    'name' => 'Alice Johnson',
-                    'email' => 'alice.johnson@testpartner2.com',
-                    'phone' => '+0987654322'
+                    'name' => 'Fatou Diallo',
+                    'email' => 'sales@sportstech.ci',
+                    'phone' => '+225-02-34-56-80',
+                    'position' => 'Sales Manager'
                 ]),
                 'technical_contacts' => json_encode([
-                    'name' => 'Bob Wilson',
-                    'email' => 'bob.wilson@testpartner2.com',
-                    'phone' => '+0987654323'
+                    'name' => 'Youssouf Koné',
+                    'email' => 'dev@sportstech.ci',
+                    'phone' => '+225-02-34-56-81',
+                    'position' => 'Lead Developer'
                 ]),
-                'url' => 'https://testpartner2.com',
+                'url' => 'https://sportstech.ci',
                 'is_active' => true,
             ],
             [
-                'name' => 'Inactive Partner',
-                'partner_id' => 'PARTNER_INACTIVE',
-                'partner_secret' => 'inactive_secret', // Will be hashed by the model mutator
-                'description' => 'Inactive partner for testing authentication failures',
-                'billing_adress' => '789 Inactive Road, Inactive City, IC 11111',
+                'name' => 'FinanceWise Analytics',
+                'partner_id' => 'PARTNER_003',
+                'description' => 'Financial market data provider offering real-time market updates, health tips, and wellness content',
+                'billing_adress' => '789 Finance Tower, Business District, Abidjan, Côte d\'Ivoire',
                 'contacts' => json_encode([
-                    'phone' => '+1111111111',
-                    'email' => 'contact@inactivepartner.com'
+                    'phone' => '+225-03-45-67-89',
+                    'email' => 'contact@financewise.ci',
+                    'fax' => '+225-03-45-67-90'
                 ]),
-                'url' => 'https://inactivepartner.com',
-                'is_active' => false, // This partner is inactive
+                'commercial_contacts' => json_encode([
+                    'name' => 'Marie-Claire Ouattara',
+                    'email' => 'business@financewise.ci',
+                    'phone' => '+225-03-45-67-91',
+                    'position' => 'Business Development Manager'
+                ]),
+                'technical_contacts' => json_encode([
+                    'name' => 'Ibrahim Sangaré',
+                    'email' => 'support@financewise.ci',
+                    'phone' => '+225-03-45-67-92',
+                    'position' => 'Technical Support Manager'
+                ]),
+                'url' => 'https://financewise.ci',
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Global Content Network',
+                'partner_id' => 'PARTNER_004',
+                'description' => 'International content distribution network providing diverse digital services across multiple verticals',
+                'billing_adress' => '321 Global Street, International Zone, Abidjan, Côte d\'Ivoire',
+                'contacts' => json_encode([
+                    'phone' => '+225-04-56-78-90',
+                    'email' => 'contact@globalcontent.ci',
+                    'fax' => '+225-04-56-78-91'
+                ]),
+                'commercial_contacts' => json_encode([
+                    'name' => 'Adama Coulibaly',
+                    'email' => 'partnerships@globalcontent.ci',
+                    'phone' => '+225-04-56-78-92',
+                    'position' => 'Partnership Director'
+                ]),
+                'technical_contacts' => json_encode([
+                    'name' => 'Nana Akoto',
+                    'email' => 'api@globalcontent.ci',
+                    'phone' => '+225-04-56-78-93',
+                    'position' => 'API Integration Specialist'
+                ]),
+                'url' => 'https://globalcontent.ci',
+                'is_active' => true,
+            ],
+            [
+                'name' => 'Legacy Systems Inc',
+                'partner_id' => 'PARTNER_LEGACY',
+                'description' => 'Legacy partner with outdated systems - used for testing backward compatibility',
+                'billing_adress' => '999 Old Tech Road, Legacy District, Abidjan, Côte d\'Ivoire',
+                'contacts' => json_encode([
+                    'phone' => '+225-09-99-99-99',
+                    'email' => 'contact@legacy.ci'
+                ]),
+                'commercial_contacts' => json_encode([
+                    'name' => 'Ancien Système',
+                    'email' => 'old@legacy.ci',
+                    'phone' => '+225-09-99-99-98'
+                ]),
+                'technical_contacts' => json_encode([
+                    'name' => 'Support Technique',
+                    'email' => 'tech@legacy.ci',
+                    'phone' => '+225-09-99-99-97'
+                ]),
+                'url' => 'https://legacy.ci',
+                'is_active' => false, // Inactive for testing
+            ],
+            [
+                'name' => 'Test Partner Sandbox',
+                'partner_id' => 'PARTNER_SANDBOX',
+                'description' => 'Sandbox environment partner for development and testing purposes',
+                'billing_adress' => '000 Sandbox Avenue, Test Environment, Dev City',
+                'contacts' => json_encode([
+                    'phone' => '+000-00-00-00-00',
+                    'email' => 'sandbox@test.dev'
+                ]),
+                'commercial_contacts' => json_encode([
+                    'name' => 'Test Commercial',
+                    'email' => 'commercial@test.dev',
+                    'phone' => '+000-00-00-00-01'
+                ]),
+                'technical_contacts' => json_encode([
+                    'name' => 'Test Technical',
+                    'email' => 'technical@test.dev',
+                    'phone' => '+000-00-00-00-02'
+                ]),
+                'url' => 'https://sandbox.test.dev',
+                'is_active' => true,
             ]
         ];
 
@@ -84,9 +169,14 @@ class PartnerSeeder extends Seeder
         }
 
         $this->command->info('Partners seeded successfully!');
+        $this->command->info('Created ' . count($partners) . ' partners with comprehensive data.');
+        $this->command->info('');
         $this->command->info('Test credentials:');
-        $this->command->info('Partner 1: partner_id=PARTNER_001, partner_secret=secret123');
-        $this->command->info('Partner 2: partner_id=PARTNER_002, partner_secret=secret456');
-        $this->command->info('Inactive: partner_id=PARTNER_INACTIVE, partner_secret=inactive_secret (should fail)');
+        $this->command->info('NewsHub Media: partner_id=PARTNER_001, partner_secret=secret123');
+        $this->command->info('SportsTech Solutions: partner_id=PARTNER_002, partner_secret=secret456');
+        $this->command->info('FinanceWise Analytics: partner_id=PARTNER_003, partner_secret=finance789');
+        $this->command->info('Global Content Network: partner_id=PARTNER_004, partner_secret=global2024');
+        $this->command->info('Test Partner Sandbox: partner_id=PARTNER_SANDBOX, partner_secret=sandbox_test');
+        $this->command->info('Legacy Systems (INACTIVE): partner_id=PARTNER_LEGACY, partner_secret=legacy_old');
     }
 }
