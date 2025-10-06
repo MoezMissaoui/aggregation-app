@@ -13,7 +13,6 @@ class Partner extends Model
     protected $fillable = [
         'name',
         'partner_id',
-        'partner_secret',
         'description',
         'billing_adress',
         'contacts',
@@ -44,13 +43,5 @@ class Partner extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
-    }
-
-    /**
-     * Hash the partner secret when setting it.
-     */
-    public function setPartnerSecretAttribute($value)
-    {
-        $this->attributes['partner_secret'] = bcrypt($value);
     }
 }

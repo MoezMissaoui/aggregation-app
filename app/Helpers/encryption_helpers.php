@@ -3,95 +3,17 @@
 use App\Services\EncryptionService;
 use Illuminate\Support\Facades\App;
 
-if (!function_exists('secure_encrypt')) {
-    /**
-     * Encrypt data using the encryption service.
-     *
-     * @param mixed $data
-     * @return string
-     */
-    function secure_encrypt($data)
-    {
-        return App::make(EncryptionService::class)->encrypt($data);
-    }
-}
 
-if (!function_exists('secure_decrypt')) {
-    /**
-     * Decrypt data using the encryption service.
-     *
-     * @param string $encryptedData
-     * @return mixed
-     */
-    function secure_decrypt($encryptedData)
-    {
-        return App::make(EncryptionService::class)->decrypt($encryptedData);
-    }
-}
-
-if (!function_exists('secure_hash')) {
-    /**
-     * Hash data using the encryption service.
-     *
-     * @param string $data
-     * @param array $options
-     * @return string
-     */
-    function secure_hash($data, array $options = [])
-    {
-        return App::make(EncryptionService::class)->hash($data, $options);
-    }
-}
-
-if (!function_exists('secure_verify_hash')) {
-    /**
-     * Verify a hash using the encryption service.
-     *
-     * @param string $data
-     * @param string $hash
-     * @return bool
-     */
-    function secure_verify_hash($data, $hash)
-    {
-        return App::make(EncryptionService::class)->verifyHash($data, $hash);
-    }
-}
-
-if (!function_exists('generate_secure_key')) {
-    /**
-     * Generate a secure random key.
-     *
-     * @param int $length
-     * @return string
-     */
-    function generate_secure_key($length = 32)
-    {
-        return App::make(EncryptionService::class)->generateKey($length);
-    }
-}
-
-if (!function_exists('generate_secure_token')) {
-    /**
-     * Generate a secure random token.
-     *
-     * @param int $length
-     * @return string
-     */
-    function generate_secure_token($length = 32)
-    {
-        return App::make(EncryptionService::class)->generateToken($length);
-    }
-}
 
 if (!function_exists('encrypt_sensitive')) {
     /**
-     * Encrypt sensitive data with metadata.
+     * Encrypt data using AES-256-CBC.
      *
-     * @param mixed $data
-     * @param string $context
+     * @param string $data
+     * @param string|null $key
      * @return string
      */
-    function encrypt_sensitive($data, $key = null)
+    function encrypt_sensitive(string $data, ?string $key = null): string
     {
         return App::make(EncryptionService::class)->encryptSensitive($data, $key);
     }
@@ -99,45 +21,17 @@ if (!function_exists('encrypt_sensitive')) {
 
 if (!function_exists('decrypt_sensitive')) {
     /**
-     * Decrypt sensitive data with metadata validation.
+     * Decrypt data using AES-256-CBC.
      *
-     * @param string $encryptedData
-     * @param string $context
-     * @return mixed
+     * @param array|string $encryptedData
+     * @param string|null $key
+     * @return string
      */
-    function decrypt_sensitive($encryptedData, $key = null)
+    function decrypt_sensitive($encryptedData, ?string $key = null): string
     {
         return App::make(EncryptionService::class)->decryptSensitive($encryptedData, $key);
     }
 }
-
-if (!function_exists('generate_api_key')) {
-    /**
-     * Generate a secure API key.
-     *
-     * @param string $prefix
-     * @param int $length
-     * @return string
-     */
-    function generate_api_key($prefix = '', $length = 32)
-    {
-        return App::make(EncryptionService::class)->generateApiKey($prefix, $length);
-    }
-}
-
-if (!function_exists('generate_partner_secret')) {
-    /**
-     * Generate a secure partner secret.
-     *
-     * @param int|null $length
-     * @return string
-     */
-    function generate_partner_secret($length = null)
-    {
-        return App::make(EncryptionService::class)->generatePartnerSecret($length);
-    }
-}
-
 
 if (!function_exists('encryption_stats')) {
     /**
@@ -145,7 +39,7 @@ if (!function_exists('encryption_stats')) {
      *
      * @return array
      */
-    function encryption_stats()
+    function encryption_stats(): array
     {
         return App::make(EncryptionService::class)->getStatistics();
     }
@@ -157,7 +51,7 @@ if (!function_exists('validate_encryption_config')) {
      *
      * @return bool
      */
-    function validate_encryption_config()
+    function validate_encryption_config(): bool
     {
         return App::make(EncryptionService::class)->validateConfiguration();
     }
