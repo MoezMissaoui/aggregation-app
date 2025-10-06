@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\V1\Partner\AuthTokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\TestController;
+use App\Http\Controllers\API\V1\Partner\PartnerAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,11 @@ use App\Http\Controllers\API\V1\TestController;
 
 // API Version 1
 Route::prefix('v1')->group(function () {
+
+    // Partner Authentication (Public endpoints)
+    Route::prefix('partner')->group(function () {
+        Route::post('/auth/token', AuthTokenController::class)->name('partner.auth.token');
+    });
 
     // Protected endpoints (require API authentication)
     Route::middleware(['api.rate_limit', 'api.key'])->group(function () {

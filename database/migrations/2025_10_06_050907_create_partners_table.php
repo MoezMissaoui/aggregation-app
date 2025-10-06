@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('partner_id')->unique();
+            $table->string('partner_secret')->unique();
             $table->text('description')->nullable();
             $table->text('billing_adress')->nullable();
             $table->text('contacts')->nullable();
