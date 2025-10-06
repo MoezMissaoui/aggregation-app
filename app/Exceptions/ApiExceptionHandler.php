@@ -6,6 +6,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -21,9 +22,9 @@ class ApiExceptionHandler
      *
      * @param Request $request
      * @param Throwable $exception
-     * @return JsonResponse
+     * @return JsonResponse|null
      */
-    public static function handle(Request $request, Throwable $exception): JsonResponse
+    public static function handle(Request $request, Throwable $exception): ?JsonResponse
     {
         // Check if this is an API request
         if (!$request->is('api/*')) {
@@ -191,7 +192,7 @@ class ApiExceptionHandler
     private static function handleGenericException(Throwable $exception): array
     {
         // Log the exception for debugging
-        \Log::error('API Exception: ' . $exception->getMessage(), [
+        Log::error('API Exception: ' . $exception->getMessage(), [
             'exception' => $exception,
             'trace' => $exception->getTraceAsString()
         ]);

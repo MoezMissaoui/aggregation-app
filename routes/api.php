@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\V1\Partner\AuthTokenController;
+use App\Http\Controllers\API\V1\Partner\AccessTokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\TestController;
@@ -20,30 +21,23 @@ use App\Http\Controllers\API\V1\Partner\PartnerAuthController;
 // API Version 1
 Route::prefix('v1')->group(function () {
 
-    // Partner Authentication (Public endpoints)
-    Route::prefix('partner')->group(function () {
-        Route::post('/auth/token', AuthTokenController::class)->name('partner.auth.token');
+
+    // OAuth2 Authentication (Public endpoints)
+    Route::prefix('auth')->group(function () {
+        Route::post('/oauth2/token', AccessTokenController::class)->name('partner.oauth2.token');
     });
+  
 
     // Protected endpoints (require API authentication)
     Route::middleware(['api.rate_limit', 'api.key'])->group(function () {
         
-        
-    });
 
+    });
     
 });
 
 // Health check endpoint
 Route::get('/health', function () {
-
-    dd(
-        encrypt_sensitive('testrfgrfeqfzefzef', 'dfgrdgdfgergrtd'),
-        decrypt_sensitive(encrypt_sensitive('testrfgrfeqfzefzef', 'dfgrdgdfgergrtd'), 'dfgrdgdfgergrtd'),
-
-
-    );
-
     return response()->json([
         'status' => 'ok',
         'timestamp' => now(),

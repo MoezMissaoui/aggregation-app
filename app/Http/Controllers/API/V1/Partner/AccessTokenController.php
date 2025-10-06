@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\API\V1\Partner;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\OAuth2TokenRequest;
 use App\Models\User;
+use App\Models\Partner;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AccessTokenController extends BaseController
@@ -20,12 +19,49 @@ class AccessTokenController extends BaseController
     /**
      * Handle the incoming request to generate an authentication token for partner users.
      *
-     * @param Request $request
+     * @param OAuth2TokenRequest $request
      * @return JsonResponse
      */
-    function __invoke(Request $request)
+    function __invoke(OAuth2TokenRequest $request)
     {
-        
+        try {
+            // Get validated data from the form request
+            $validated = $request->validated();
+            
+            $clientId = $validated['client_id'];
+            $clientSecret = $validated['client_secret'];
+            $grantType = $validated['grant_type'];
+
+            // Find the partner by client_id (partner_id)
+            $partner = Partner::where('partner_id', $clientId)
+                             ->where('is_active', true)
+                             ->first();
+
+            if (!$partner) {
+                return $this->errorResponse('Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            // Verify the client secret
+            if (decrypt_sensitive($partner->partner_secret, config('app.encryption_key')) !== $clientSecret) {
+                return $this->errorResponse('Invalid client secret', Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            // Create a token for the partner
+            $tokenData = create_token($partner);
+
+            // Prepare the OAuth2 compliant response
+            $response = [
+                'access_token' => $tokenData['access_token'],
+                'expires_in' => $tokenData['expires_in'],   
+                'token_type' => 'Bearer',
+                'scope' => 'api'
+            ];
+
+            return $this->successResponse($response, 'Access token generated successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
