@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers\API\V1\Partner;
 
-use App\Helpers\ApiResponse;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\OAuth2TokenRequest;
-use App\Models\User;
+use App\Helpers\ApiResponse;
 use App\Models\Partner;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
+
 
 class AccessTokenController extends BaseController
 {
