@@ -20,6 +20,7 @@ class ApiRateLimitMiddleware
         $apiKey = $request->header('X-API-Key') ?? $request->get('api_key');
         $maxRequests = config('api.rate_limit.requests_per_minute', 60);
         $decayMinutes = 1;
+
         
         if (!$apiKey) {
             // If no API key, use IP-based rate limiting
