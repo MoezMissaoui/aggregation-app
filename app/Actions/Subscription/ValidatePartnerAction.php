@@ -12,6 +12,10 @@ class ValidatePartnerAction
      */
     public function execute(string $partner_id): Partner
     {
+        if (auth()->user()->partner_id != $partner_id) {
+            throw new \Exception("Partner ID does not match authenticated user");
+        }
+
         $partner = Partner::where('partner_id', $partner_id)->first();
 
         if (!$partner) {

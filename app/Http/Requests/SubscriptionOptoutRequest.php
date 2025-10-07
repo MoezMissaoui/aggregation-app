@@ -33,7 +33,7 @@ class SubscriptionOptoutRequest extends FormRequest
                 'max:20'
             ],
             'service_offer_id' => [
-                'nullable',
+                'required',
                 'integer',
                 'exists:service_offers,id'
             ],

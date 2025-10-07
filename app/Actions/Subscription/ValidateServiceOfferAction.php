@@ -13,7 +13,9 @@ class ValidateServiceOfferAction
     public function execute(int $service_offer_id, int $partner_id): ServiceOffer
     {
         $serviceOffer = ServiceOffer::where('id', $service_offer_id)
-            ->where('partner_id', $partner_id)
+            ->whereHas('service', function ($query) use ($partner_id) {
+                $query->where('partner_id', $partner_id);
+            })
             ->first();
 
         if (!$serviceOffer) {

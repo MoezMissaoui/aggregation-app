@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('msisdn');
 
-            $table->dateTime('date_subscription');
-            $table->dateTime('date_last_status_update');
-            $table->dateTime('date_end_trial_period');
-            $table->dateTime('date_last_unsub');
-            $table->dateTime('date_first_success_payment');
+            $table->dateTime('date_subscription')->nullable();
+            $table->dateTime('date_last_status_update')->nullable();
+            $table->dateTime('date_end_trial_period')->nullable();
+            $table->dateTime('date_last_unsub')->nullable();
+            $table->dateTime('date_first_success_payment')->nullable();
 
-            $table->string('billing_status');
-            $table->dateTime('date_expired');
+            $table->string('billing_status')->nullable();
+            $table->dateTime('date_expired')->nullable();
 
             $table->timestamps();
         });

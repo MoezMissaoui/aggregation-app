@@ -23,7 +23,9 @@ class GetSubscriptionStatusAction
             ->where('subscriber_id', $subscriber->id)
             ->where('status', 'active')
             ->whereHas('serviceOffer', function ($query) use ($data) {
-                $query->where('partner_id', $data['partner_id']);
+                $query->whereHas('service', function ($query) use ($data) {
+                    $query->where('partner_id', $data['partner_id']);
+                });
             })
             ->get();
 
@@ -42,17 +44,11 @@ class GetSubscriptionStatusAction
             ];
         });
 
-        // Compter les abonnements actifs
-        $activeSubscriptionsCount = Subscription::where('subscriber_id', $subscriber->id)
-            ->where('status', 'active')
-            ->count();
-
         return [
             'subscriber_id' => $subscriber->id,
             'msisdn' => $subscriber->msisdn,
             'subscriber_status' => $subscriber->status,
             'subscriptions' => $subscriptionData,
-            'total_active_subscriptions' => $activeSubscriptionsCount,
         ];
     }
 }
