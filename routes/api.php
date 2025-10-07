@@ -22,7 +22,7 @@ use App\Http\Controllers\API\V1\Partner\PartnerAuthController;
 */
 
 // API Version 1
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware(['correlation.id'])->group(function () {
 
 
     // OAuth2 Authentication (Public endpoints)
@@ -56,4 +56,4 @@ Route::get('/health', function () {
         'service' => 'aggregation-api',
         'version' => '1.0.0'
     ]);
-})->name('api.health');
+})->middleware(['correlation.id'])->name('api.health');

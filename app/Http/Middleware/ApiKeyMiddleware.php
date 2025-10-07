@@ -39,6 +39,17 @@ class ApiKeyMiddleware
         // Add API key info to request for logging
         $request->merge(['api_key_used' => $apiKey]);
         
+        // Get correlation ID from request (set by CorrelationIdMiddleware)
+        $correlationId = $request->get('correlation-id') ?? $request->attributes->get('correlation-id');
+        
+        // Log API key validation with correlation ID
+        if ($correlationId) {
+            \Illuminate\Support\Facades\Log::info('API key validated successfully', [
+                'correlation-id' => $correlationId,
+                'api_key_hash' => substr(hash('sha256', $apiKey), 0, 8) // Log only hash prefix for security
+            ]);
+        }
+        
         return $next($request);
     }
 }
