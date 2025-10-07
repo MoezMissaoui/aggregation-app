@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\API\V1\Partner\AuthTokenController;
 use App\Http\Controllers\API\V1\Partner\AccessTokenController;
+use App\Http\Controllers\API\V1\Subscription\OptinController;
+use App\Http\Controllers\API\V1\Subscription\OptoutController;
+use App\Http\Controllers\API\V1\Subscription\StatusController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\TestController;
@@ -29,8 +32,17 @@ Route::prefix('v1')->group(function () {
   
 
     // Protected endpoints (require API authentication)
-    Route::middleware(['api.rate_limit', 'api.key'])->group(function () {
+    Route::middleware(['api.rate_limit', 'auth:partner'])->group(function () {
         
+        // Subscription Management
+        Route::prefix('subscription')->group(function () {
+            Route::post('/optin/{partner_id}', OptinController::class)
+                ->name('subscription.optin');
+            Route::post('/optout/{partner_id}', OptoutController::class)
+                ->name('subscription.optout');
+            Route::get('/status/{partner_id}', StatusController::class)
+                ->name('subscription.status');
+        });
 
     });
     

@@ -5,14 +5,21 @@ namespace App\Http\Controllers\API\V1\Partner;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\OAuth2TokenRequest;
 use App\Helpers\ApiResponse;
-use App\Models\Partner;
+use App\Services\Authentication\AuthenticationService;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class AccessTokenController extends BaseController
 {
+    protected AuthenticationService $authenticationService;
+
+    public function __construct(AuthenticationService $authenticationService)
+    {
+        $this->authenticationService = $authenticationService;
+    }
 
     /**
      * Handle the incoming request to generate an authentication token for partner users.
@@ -20,46 +27,27 @@ class AccessTokenController extends BaseController
      * @param OAuth2TokenRequest $request
      * @return JsonResponse
      */
-    function __invoke(OAuth2TokenRequest $request)
+    function __invoke(OAuth2TokenRequest $request): JsonResponse
     {
         try {
             // Get validated data from the form request
-            $validated = $request->validated();
+            $credentials = $request->validated();
+
+            // Authenticate partner and generate token using the service
+            $tokenResponse = $this->authenticationService->authenticatePartner($credentials);
+
+            return ApiResponse::success($tokenResponse, 'Access token generated successfully');
+
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error([], 'Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (Exception $e) {
+            // Handle specific authentication errors
+            if (str_contains($e->getMessage(), 'Invalid client secret') || 
+                str_contains($e->getMessage(), 'Unsupported grant type')) {
+                return ApiResponse::error([], $e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
             
-            $clientId = $validated['client_id'];
-            $clientSecret = $validated['client_secret'];
-            $grantType = $validated['grant_type'];
-
-            // Find the partner by client_id (partner_id)
-            $partner = Partner::where('partner_id', $clientId)
-                             ->where('is_active', true)
-                             ->first();
-
-            if (!$partner) {
-                return ApiResponse::error([], 'Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            // Verify the client secret
-            if (decrypt_sensitive($partner->partner_secret, config('app.encryption_key')) !== $clientSecret) {
-                return ApiResponse::error([], 'Invalid client secret', Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-
-            // Create a token for the partner
-            $tokenData = create_token($partner);
-
-            // Prepare the OAuth2 compliant response
-            $response = [
-                'access_token' => $tokenData['access_token'],
-                'expires_in' => $tokenData['expires_in'],   
-                'token_type' => 'Bearer',
-                'scope' => 'api'
-            ];
-
-            return ApiResponse::success($response, 'Access token generated successfully');
-
-        } catch (\Exception $e) {
             return ApiResponse::error([], 'Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 }

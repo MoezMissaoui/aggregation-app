@@ -45,4 +45,15 @@ class Partner extends Model
     {
         return $query->where('is_active', true);
     }
+
+    /**
+     * Verify if the provided client secret matches the partner's secret.
+     *
+     * @param string $clientSecret
+     * @return bool
+     */
+    public function verifyClientSecret(string $clientSecret): bool
+    {
+        return decrypt_sensitive($this->partner_secret, config('app.encryption_key')) === $clientSecret;
+    }
 }
