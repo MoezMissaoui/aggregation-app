@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponse;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +36,7 @@ class ApiExceptionHandler
         
         // Add debug information in development
         if (config('app.debug') && config('api.response.include_debug_info', false)) {
-            $response['debug'] = [
+            $response['data']['debug'] = [
                 'exception' => get_class($exception),
                 'file' => $exception->getFile(),
                 'line' => $exception->getLine(),
@@ -43,7 +44,7 @@ class ApiExceptionHandler
             ];
         }
 
-        return response()->json($response, $response['status_code']);
+        return ApiResponse::error($response['data'], $response['message'], $response['status_code']);
     }
 
     /**
@@ -88,9 +89,10 @@ class ApiExceptionHandler
     private static function handleValidationException(ValidationException $exception): array
     {
         return [
-            'success' => false,
+            'data' => [
+                'errors' => $exception->errors()
+            ],
             'message' => 'Validation failed',
-            'errors' => $exception->errors(),
             'status_code' => Response::HTTP_UNPROCESSABLE_ENTITY
         ];
     }
@@ -106,9 +108,10 @@ class ApiExceptionHandler
         $model = class_basename($exception->getModel());
         
         return [
-            'success' => false,
+            'data' => [
+                'errors' => ["The requested {$model} could not be found"]
+            ],
             'message' => "{$model} not found",
-            'errors' => ["The requested {$model} could not be found"],
             'status_code' => Response::HTTP_NOT_FOUND
         ];
     }
@@ -121,9 +124,10 @@ class ApiExceptionHandler
     private static function handleNotFoundHttpException(): array
     {
         return [
-            'success' => false,
+            'data' => [
+                'errors' => ['The requested API endpoint does not exist']
+            ],
             'message' => 'Endpoint not found',
-            'errors' => ['The requested API endpoint does not exist'],
             'status_code' => Response::HTTP_NOT_FOUND
         ];
     }
@@ -139,12 +143,13 @@ class ApiExceptionHandler
         $allowedMethods = implode(', ', $exception->getHeaders()['Allow'] ?? []);
         
         return [
-            'success' => false,
-            'message' => 'Method not allowed',
-            'errors' => [
-                'The HTTP method used is not allowed for this endpoint',
-                $allowedMethods ? "Allowed methods: {$allowedMethods}" : ''
+            'data' => [
+                'errors' => [
+                    'The HTTP method used is not allowed for this endpoint',
+                    $allowedMethods ? "Allowed methods: {$allowedMethods}" : ''
+                ]
             ],
+            'message' => 'Method not allowed',
             'status_code' => Response::HTTP_METHOD_NOT_ALLOWED
         ];
     }
@@ -157,9 +162,10 @@ class ApiExceptionHandler
     private static function handleAuthenticationException(): array
     {
         return [
-            'success' => false,
+            'data' => [
+                'errors' => ['Authentication required. Please provide a valid API key']
+            ],
             'message' => 'Unauthorized',
-            'errors' => ['Authentication required. Please provide a valid API key'],
             'status_code' => Response::HTTP_UNAUTHORIZED
         ];
     }
@@ -176,9 +182,10 @@ class ApiExceptionHandler
         $message = Response::$statusTexts[$statusCode] ?? 'HTTP Error';
         
         return [
-            'success' => false,
+            'data' => [
+                'errors' => [$exception->getMessage() ?: $message]
+            ],
             'message' => $message,
-            'errors' => [$exception->getMessage() ?: $message],
             'status_code' => $statusCode
         ];
     }
@@ -198,13 +205,14 @@ class ApiExceptionHandler
         ]);
 
         return [
-            'success' => false,
-            'message' => 'Internal server error',
-            'errors' => [
-                config('app.debug') 
-                    ? $exception->getMessage() 
-                    : 'An unexpected error occurred. Please try again later.'
+            'data' => [
+                'errors' => [
+                    config('app.debug') 
+                        ? $exception->getMessage() 
+                        : 'An unexpected error occurred. Please try again later.'
+                ]
             ],
+            'message' => 'Internal server error',
             'status_code' => Response::HTTP_INTERNAL_SERVER_ERROR
         ];
     }
@@ -217,9 +225,10 @@ class ApiExceptionHandler
     public static function handleDatabaseException(): array
     {
         return [
-            'success' => false,
+            'data' => [
+                'errors' => ['Unable to connect to the database. Please try again later.']
+            ],
             'message' => 'Database connection error',
-            'errors' => ['Unable to connect to the database. Please try again later.'],
             'status_code' => Response::HTTP_SERVICE_UNAVAILABLE
         ];
     }
@@ -233,14 +242,15 @@ class ApiExceptionHandler
     public static function handleRateLimitException(int $retryAfter = 60): array
     {
         return [
-            'success' => false,
-            'message' => 'Rate limit exceeded',
-            'errors' => [
-                'Too many requests. Please try again later.',
-                "Retry after: {$retryAfter} seconds"
+            'data' => [
+                'errors' => [
+                    'Too many requests. Please try again later.',
+                    "Retry after: {$retryAfter} seconds"
+                ],
+                'retry_after' => $retryAfter
             ],
-            'status_code' => Response::HTTP_TOO_MANY_REQUESTS,
-            'retry_after' => $retryAfter
+            'message' => 'Rate limit exceeded',
+            'status_code' => Response::HTTP_TOO_MANY_REQUESTS
         ];
     }
 }

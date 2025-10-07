@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ApiResponse;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -75,12 +76,11 @@ class OAuth2TokenRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-                'status_code' => Response::HTTP_BAD_REQUEST
-            ], Response::HTTP_BAD_REQUEST)
+            ApiResponse::error(
+                ['errors' => $validator->errors()],
+                'Validation failed',
+                Response::HTTP_BAD_REQUEST
+            )
         );
     }
 }

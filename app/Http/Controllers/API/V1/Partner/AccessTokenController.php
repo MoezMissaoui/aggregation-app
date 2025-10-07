@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Partner;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\OAuth2TokenRequest;
 use App\Models\User;
@@ -38,12 +39,12 @@ class AccessTokenController extends BaseController
                              ->first();
 
             if (!$partner) {
-                return $this->errorResponse('Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);
+                return ApiResponse::error([], 'Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
             // Verify the client secret
             if (decrypt_sensitive($partner->partner_secret, config('app.encryption_key')) !== $clientSecret) {
-                return $this->errorResponse('Invalid client secret', Response::HTTP_UNPROCESSABLE_ENTITY);
+                return ApiResponse::error([], 'Invalid client secret', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
             // Create a token for the partner
@@ -57,10 +58,10 @@ class AccessTokenController extends BaseController
                 'scope' => 'api'
             ];
 
-            return $this->successResponse($response, 'Access token generated successfully');
+            return ApiResponse::success($response, 'Access token generated successfully');
 
         } catch (\Exception $e) {
-            return $this->errorResponse('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return ApiResponse::error([], 'Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
