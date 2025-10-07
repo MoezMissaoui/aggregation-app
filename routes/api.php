@@ -22,7 +22,7 @@ use App\Http\Controllers\API\V1\Partner\PartnerAuthController;
 */
 
 // API Version 1
-Route::prefix('v1')->middleware(['correlation.id'])->group(function () {
+Route::prefix('v1')->middleware(['api.rate_limit', 'correlation.id'])->group(function () {
 
 
     // OAuth2 Authentication (Public endpoints)
@@ -32,7 +32,7 @@ Route::prefix('v1')->middleware(['correlation.id'])->group(function () {
   
 
     // Protected endpoints (require API authentication)
-    Route::middleware(['api.rate_limit', 'auth:partner'])->group(function () {
+    Route::middleware(['auth:partner'])->group(function () {
         
         // Subscription Management
         Route::prefix('subscription')->group(function () {
