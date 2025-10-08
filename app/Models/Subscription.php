@@ -17,14 +17,14 @@ class Subscription extends Model
         'subscriber_id',
         'service_offer_id',
         'status',
-        'start',
-        'end',
+        'start_date',
+        'end_date',
         'canal',
     ];
 
     protected $casts = [
-        'start' => 'datetime',
-        'end' => 'datetime',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -114,6 +114,6 @@ class Subscription extends Model
      */
     public function isExpired()
     {
-        return $this->end < now();
+        return $this->end_date < now();
     }
 }
