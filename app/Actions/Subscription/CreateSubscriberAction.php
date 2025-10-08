@@ -12,19 +12,11 @@ class CreateSubscriberAction
     public function execute(string $msisdn): Subscriber
     {
         $subscriber = Subscriber::where('msisdn', $msisdn)->first();
-
         if (!$subscriber) {
             $subscriber = Subscriber::create([
                 'msisdn' => $msisdn,
-                'status' => 'active',
             ]);
-        } else {
-            // Réactiver l'abonné s'il était inactif
-            if ($subscriber->status !== 'active') {
-                $subscriber->update(['status' => 'active']);
-            }
         }
-
         return $subscriber;
     }
 }
