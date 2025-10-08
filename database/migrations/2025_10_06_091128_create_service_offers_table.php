@@ -28,8 +28,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('auto_renew')->default(true);
 
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
 
             $table->timestamps();
         });

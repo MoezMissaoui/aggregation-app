@@ -22,8 +22,8 @@ return new class extends Migration
 
             $table->enum('status', ['active', 'suspended', 'deleted'])->default('active');
 
-            $table->dateTime('start');
-            $table->dateTime('end');
+            $table->timestamp('start');
+            $table->timestamp('end');
 
             $table->string('canal');
 
