@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('tarif', 10, 3);
             $table->integer('frequency');
+            $table->integer('free_days');
             $table->string('currency')->nullable();
 
             $table->unsignedBigInteger('service_id')->nullable();

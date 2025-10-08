@@ -13,6 +13,7 @@ class ServiceOffer extends Model
         'name',
         'tarif',
         'frequency',
+        'free_days',    
         'currency',
         'service_id',
         'operator_id',
@@ -25,6 +26,7 @@ class ServiceOffer extends Model
     protected $casts = [
         'tarif' => 'decimal:3',
         'frequency' => 'integer',
+        'free_days' => 'integer',
         'is_active' => 'boolean',
         'auto_renew' => 'boolean',
         'start_date' => 'datetime',
