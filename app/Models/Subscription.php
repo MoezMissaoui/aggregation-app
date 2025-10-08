@@ -12,6 +12,7 @@ class Subscription extends Model
     const STATUS_ACTIVE = 'active';
     const STATUS_SUSPENDED = 'suspended';
     const STATUS_DELETED = 'deleted';
+    const STATUS_EXPIRED = 'expired';
 
     protected $fillable = [
         'subscriber_id',
@@ -91,6 +92,14 @@ class Subscription extends Model
     public function scopeDeleted($query)
     {
         return $query->where('status', self::STATUS_DELETED);
+    }
+
+    /**
+     * Scope to get expired subscriptions.
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where('status', self::STATUS_EXPIRED);
     }
 
     /**

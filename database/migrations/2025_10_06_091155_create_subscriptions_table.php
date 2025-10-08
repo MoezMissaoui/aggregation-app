@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_offer_id')->nullable();
             $table->foreign('service_offer_id')->references('id')->on('service_offers')->onDelete('set null');
 
-            $table->enum('status', ['active', 'suspended', 'deleted'])->default('active');
+            $table->enum('status', ['active', 'suspended', 'deleted', 'expired'])->default('active');
 
             $table->timestamp('start_date');
             $table->timestamp('end_date');
