@@ -76,8 +76,8 @@ class SubscriptionService
                 'subscription_id' => $subscription->id,
                 'subscriber_id' => $subscriber->id,
                 'status' => $subscription->status,
-                'start_date' => $subscription->start->toISOString(),
-                'end_date' => $subscription->end->toISOString(),
+                'start_date' => $subscription->start_date?->toISOString(),
+                'end_date' => $subscription->end_date?->toISOString(),
                 'service_offer' => [
                     'id' => $serviceOffer->id,
                     'name' => $serviceOffer->name,
