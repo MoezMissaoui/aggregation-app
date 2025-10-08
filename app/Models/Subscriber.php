@@ -108,6 +108,6 @@ class Subscriber extends Model
      */
     public function daysSinceSubscription()
     {
-        return $this->date_subscription->diffInDays(now());
+        return max(0, (int) $this->date_subscription->diffInDays(now()));
     }
 }

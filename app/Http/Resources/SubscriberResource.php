@@ -26,7 +26,7 @@ class SubscriberResource extends JsonResource
             'date_expired' => $this->date_expired?->toISOString(),
             'is_in_trial_period' => $this->isInTrialPeriod(),
             'is_expired' => $this->isExpired(),
-            'days_since_subscription' => $this->date_subscription ? $this->daysSinceSubscription() : null,
+            'days_since_subscription' => $this->daysSinceSubscription(),
             'created_at' => $this->created_at?->toISOString(),
             'updated_at' => $this->updated_at?->toISOString(),
         ];
