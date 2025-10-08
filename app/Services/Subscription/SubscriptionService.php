@@ -8,6 +8,7 @@ use App\Actions\Subscription\ValidateServiceOfferAction;
 use App\Actions\Subscription\CreateSubscriptionAction;
 use App\Actions\Subscription\CancelSubscriptionAction;
 use App\Actions\Subscription\GetSubscriptionStatusAction;
+use App\Models\Subscription;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -141,7 +142,7 @@ class SubscriptionService
     /**
      * Récupère le statut des abonnements d'un abonné
      */
-    public function getStatus(array $data, string $partner_id): array
+    public function getStatus(array $data, string $partner_id): Subscription
     {
         try {
             // 1. Valider le partenaire

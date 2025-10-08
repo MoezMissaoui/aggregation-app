@@ -24,15 +24,8 @@ class StatusController extends Controller
     {
         try {
             $result = $this->subscriptionService->getStatus($request->validated(), $partner_id);
-            
-            return ApiResponse::success([
-                'subscriber' => [
-                    'id' => $result['subscriber_id'],
-                    'msisdn' => $result['msisdn'],
-                    'status' => $result['subscriber_status']
-                ],
-                'subscriptions' => SubscriptionResource::collection($result['subscriptions'])
-            ], 'Subscription status retrieved successfully');
+
+            return ApiResponse::success(new SubscriptionResource($result), 'Subscription status retrieved successfully');
         } catch (\Exception $e) {
             return ApiResponse::error($e->getMessage(), 400);
         }

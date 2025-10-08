@@ -3,6 +3,8 @@
 namespace App\Actions\Subscription;
 
 use App\Enums\SubscriptionStatus;
+use App\Http\Resources\SubscriberResource;
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
 use App\Models\Subscriber;
 
@@ -11,7 +13,7 @@ class GetSubscriptionStatusAction
     /**
      * Récupère le statut des abonnements d'un abonné
      */
-    public function execute(array $data): array
+    public function execute(array $data): Subscription
     {
         $subscriber = Subscriber::where('msisdn', $data['msisdn'])->first();
 
@@ -19,8 +21,8 @@ class GetSubscriptionStatusAction
             throw new \Exception("Subscriber with MSISDN {$data['msisdn']} not found");
         }
 
-        // Récupérer les abonnements actifs du partenaire
-        $subscriptions = Subscription::with('serviceOffer')
+        // Récupérer le dernier abonnement actif du partenaire
+        $subscription = Subscription::with('serviceOffer')
             ->where('subscriber_id', $subscriber->id)
             ->where('status', SubscriptionStatus::ACTIVE)
             ->whereHas('serviceOffer', function ($query) use ($data) {
@@ -28,28 +30,9 @@ class GetSubscriptionStatusAction
                     $query->where('partner_id', $data['partner_id']);
                 });
             })
-            ->get();
+            ->orderBy('created_at', 'desc')
+            ->first();
 
-        // Mapper les données des abonnements
-        $subscriptionData = $subscriptions->map(function ($subscription) {
-            return [
-                'subscription_id' => $subscription->id,
-                'service_offer_id' => $subscription->service_offer_id,
-                'service_name' => $subscription->serviceOffer->name,
-                'status' => $subscription->status,
-                'start_date' => $subscription->start_date?->toISOString(),
-                'end_date' => $subscription->end_date?->toISOString(),
-                'tarif' => $subscription->serviceOffer->tarif,
-                'frequency' => $subscription->serviceOffer->frequency,
-                'currency' => $subscription->serviceOffer->currency,
-            ];
-        });
-
-        return [
-            'subscriber_id' => $subscriber->id,
-            'msisdn' => $subscriber->msisdn,
-            'subscriber_status' => $subscriber->status,
-            'subscriptions' => $subscriptionData,
-        ];
+        return $subscription->load('subscriber');
     }
 }
