@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
+            'auth' => \App\Http\Middleware\Authenticate::class,
             'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
             'api.rate_limit' => \App\Http\Middleware\ApiRateLimitMiddleware::class,
             'correlation.id' => \App\Http\Middleware\CorrelationIdMiddleware::class
