@@ -23,6 +23,8 @@ class Log extends Model
     protected $casts = [
         'request' => 'array',
         'response' => 'array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**

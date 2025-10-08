@@ -15,6 +15,11 @@ class Operator extends Model
         'description',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     /**
      * Get the service offers for the operator.
      */

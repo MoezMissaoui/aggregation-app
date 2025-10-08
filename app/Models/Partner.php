@@ -26,6 +26,8 @@ class Partner extends Authenticatable
 
     protected $casts = [
         'is_active' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'contacts' => 'array',
         'commercial_contacts' => 'array',
         'technical_contacts' => 'array',

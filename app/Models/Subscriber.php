@@ -27,6 +27,8 @@ class Subscriber extends Model
         'date_last_unsub' => 'datetime',
         'date_first_success_payment' => 'datetime',
         'date_expired' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**

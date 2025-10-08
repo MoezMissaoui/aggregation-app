@@ -25,6 +25,10 @@ class ServiceOffer extends Model
     protected $casts = [
         'tarif' => 'decimal:3',
         'frequency' => 'integer',
+        'is_active' => 'boolean',
+        'auto_renew' => 'boolean',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     /**

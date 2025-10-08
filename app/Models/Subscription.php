@@ -25,6 +25,8 @@ class Subscription extends Model
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**

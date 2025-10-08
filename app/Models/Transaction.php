@@ -16,6 +16,8 @@ class Transaction extends Model
 
     protected $casts = [
         'price' => 'decimal:3',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
