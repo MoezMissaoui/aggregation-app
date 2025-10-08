@@ -12,6 +12,10 @@ class ValidatePartnerAction
      */
     public function execute(string $partner_id): Partner
     {
+        // Check if the user is authenticated
+        if (!auth()->check()) {
+            throw new \Exception("User is not authenticated");
+        }
         if (auth()->user()->partner_id != $partner_id) {
             throw new \Exception("Partner ID does not match authenticated user");
         }
