@@ -29,7 +29,7 @@ class OptinController extends Controller
             // Récupérer l'abonnement avec ses relations
             $subscription = Subscription::with(['subscriber', 'serviceOffer'])
                 ->findOrFail($result['subscription_id']);
-            
+
             return ApiResponse::success(
                 new SubscriptionResource($subscription), 
                 'Subscription opt-in successful'

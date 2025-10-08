@@ -15,7 +15,7 @@ class SubscriberResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'subscriber_id' => $this->id,
             'msisdn' => $this->msisdn,
             'date_subscription' => $this->date_subscription?->toISOString(),
             'date_last_status_update' => $this->date_last_status_update?->toISOString(),
