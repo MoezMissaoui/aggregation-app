@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
@@ -23,23 +22,6 @@ Route::get('/artisan/optimize-clear', function () {
     }
 });
 
-Auth::routes(['verify' => true]);
-
-
-// Front Office Routes
-Route::group(
-    [
-        'middleware' => ['auth', 'verified'],
-        'prefix' => 'admin',
-        'as' => 'bo.',
-    ],
-    function () {
-
-        Route::get('/', [App\Http\Controllers\BO\HomeController::class, 'index'])->name('home');
-    }
-);
-
-
 Route::get('/', function() {
-    return 'Silence is gold';
+    return view('welcome');
 });
