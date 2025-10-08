@@ -26,6 +26,10 @@ return new class extends Migration
             $table->foreign('operator_id')->references('id')->on('operators')->onDelete('set null');
 
             $table->boolean('is_active')->default(true);
+            $table->boolean('auto_renew')->default(true);
+
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
 
             $table->timestamps();
         });

@@ -17,6 +17,9 @@ class ServiceOffer extends Model
         'service_id',
         'operator_id',
         'is_active',
+        'auto_renew',
+        'start_date',
+        'end_date',
     ];
 
     protected $casts = [

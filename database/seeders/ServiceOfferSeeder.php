@@ -49,6 +49,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $service->id,
                 'operator_id' => $orange->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
 
             $serviceOffers[] = [
@@ -59,6 +62,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $service->id,
                 'operator_id' => $orange->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
 
             // MTN offers
@@ -70,6 +76,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $service->id,
                 'operator_id' => $mtn->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
 
             $serviceOffers[] = [
@@ -80,6 +89,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $service->id,
                 'operator_id' => $mtn->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
 
             // Moov offers (only for some services)
@@ -92,6 +104,9 @@ class ServiceOfferSeeder extends Seeder
                     'service_id' => $service->id,
                     'operator_id' => $moov->id,
                     'is_active' => true,
+                    'auto_renew' => true,
+                    'start_date' => now(),
+                    'end_date' => now()->addYear(),
                 ];
 
                 $serviceOffers[] = [
@@ -102,6 +117,9 @@ class ServiceOfferSeeder extends Seeder
                     'service_id' => $service->id,
                     'operator_id' => $moov->id,
                     'is_active' => true,
+                    'auto_renew' => true,
+                    'start_date' => now(),
+                    'end_date' => now()->addYear(),
                 ];
             }
 
@@ -115,6 +133,9 @@ class ServiceOfferSeeder extends Seeder
                     'service_id' => $service->id,
                     'operator_id' => $telecel->id,
                     'is_active' => true,
+                    'auto_renew' => true,
+                    'start_date' => now(),
+                    'end_date' => now()->addYear(),
                 ];
 
                 $serviceOffers[] = [
@@ -125,6 +146,9 @@ class ServiceOfferSeeder extends Seeder
                     'service_id' => $service->id,
                     'operator_id' => $telecel->id,
                     'is_active' => true,
+                    'auto_renew' => true,
+                    'start_date' => now(),
+                    'end_date' => now()->addYear(),
                 ];
             }
         }
@@ -140,6 +164,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $newsService->id,
                 'operator_id' => $orange->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
 
             $serviceOffers[] = [
@@ -150,6 +177,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $newsService->id,
                 'operator_id' => $mtn->id,
                 'is_active' => true,
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
         }
 
@@ -164,6 +194,9 @@ class ServiceOfferSeeder extends Seeder
                 'service_id' => $sportsService->id,
                 'operator_id' => $orange->id,
                 'is_active' => false, // Inactive for testing
+                'auto_renew' => true,
+                'start_date' => now(),
+                'end_date' => now()->addYear(),
             ];
         }
 
