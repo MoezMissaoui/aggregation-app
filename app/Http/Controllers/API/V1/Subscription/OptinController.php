@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SubscriptionOptinRequest;
 use App\Services\Subscription\SubscriptionService;
 use App\Helpers\ApiResponse;
+use App\Http\Resources\SubscriptionResource;
+use App\Models\Subscription;
 
 class OptinController extends Controller
 {
@@ -24,7 +26,14 @@ class OptinController extends Controller
         try {
             $result = $this->subscriptionService->optin($request->validated(), $partner_id);
             
-            return ApiResponse::success($result, 'Subscription opt-in successful');
+            // Récupérer l'abonnement avec ses relations
+            $subscription = Subscription::with(['subscriber', 'serviceOffer'])
+                ->findOrFail($result['subscription_id']);
+            
+            return ApiResponse::success(
+                new SubscriptionResource($subscription), 
+                'Subscription opt-in successful'
+            );
         } catch (\Exception $e) {
             return ApiResponse::error($e->getMessage(), 400);
         }

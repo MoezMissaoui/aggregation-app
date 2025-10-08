@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\ApiErrorResource;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,22 +19,28 @@ class ApiKeyMiddleware
         $apiKey = $request->header('X-API-Key') ?? $request->get('api_key');
         
         if (!$apiKey) {
-            return response()->json([
-                'success' => false,
-                'message' => 'API key is required',
-                'error' => 'Missing API key in request headers or parameters'
-            ], 401);
+            return response()->json(
+                new ApiErrorResource([
+                    'code' => 401,
+                    'message' => 'API key is required',
+                    'errors' => ['Missing API key in request headers or parameters']
+                ]),
+                401
+            );
         }
         
         // Get valid API keys from config
         $validApiKeys = config('api.keys', []);
         
         if (!in_array($apiKey, $validApiKeys)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid API key',
-                'error' => 'The provided API key is not valid'
-            ], 401);
+            return response()->json(
+                new ApiErrorResource([
+                    'code' => 401,
+                    'message' => 'Invalid API key',
+                    'errors' => ['The provided API key is not valid']
+                ]),
+                401
+            );
         }
         
         // Add API key info to request for logging

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helpers\ApiResponse;
+use App\Http\Resources\ApiErrorResource;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -44,7 +45,16 @@ class ApiExceptionHandler
             ];
         }
 
-        return ApiResponse::error($response['data'], $response['message'], $response['status_code']);
+        return ApiResponse::error(
+            new ApiErrorResource([
+                'code' => $response['status_code'],
+                'message' => $response['message'],
+                'errors' => $response['data']['errors'] ?? [],
+                'debug' => $response['data']['debug'] ?? []
+            ]), 
+            $response['message'], 
+            $response['status_code']
+        );
     }
 
     /**

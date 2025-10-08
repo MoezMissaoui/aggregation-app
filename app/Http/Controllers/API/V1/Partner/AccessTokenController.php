@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\OAuth2TokenRequest;
 use App\Helpers\ApiResponse;
 use App\Services\Authentication\AuthenticationService;
+use App\Http\Resources\OAuth2TokenResource;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -36,7 +37,10 @@ class AccessTokenController extends BaseController
             // Authenticate partner and generate token using the service
             $tokenResponse = $this->authenticationService->authenticatePartner($credentials);
 
-            return ApiResponse::success($tokenResponse, 'Access token generated successfully');
+            return ApiResponse::success(
+                new OAuth2TokenResource($tokenResponse), 
+                'Access token generated successfully'
+            );
 
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error([], 'Inactive client', Response::HTTP_UNPROCESSABLE_ENTITY);

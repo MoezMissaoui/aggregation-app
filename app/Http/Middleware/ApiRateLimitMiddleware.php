@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\ApiExceptionHandler;
+use App\Http\Resources\ApiErrorResource;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -35,7 +36,15 @@ class ApiRateLimitMiddleware
             $retryAfter = Cache::get($key . ':retry_after', 60);
             $response = ApiExceptionHandler::handleRateLimitException($retryAfter);
             
-            return response()->json($response, $response['status_code'])
+            return response()->json(
+                new ApiErrorResource([
+                    'code' => $response['status_code'],
+                    'message' => $response['message'],
+                    'errors' => $response['data']['errors'],
+                    'retry_after' => $response['data']['retry_after']
+                ]),
+                $response['status_code']
+            )
                 ->header('Retry-After', $retryAfter)
                 ->header('X-RateLimit-Limit', $maxRequests)
                 ->header('X-RateLimit-Remaining', 0);

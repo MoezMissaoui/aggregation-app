@@ -50,10 +50,11 @@ Route::prefix('v1')->middleware(['api.rate_limit', 'correlation.id'])->group(fun
 
 // Health check endpoint
 Route::get('/health', function () {
-    return response()->json([
-        'status' => 'ok',
-        'timestamp' => now(),
-        'service' => 'aggregation-api',
-        'version' => '1.0.0'
-    ]);
+    return response()->json(
+        new \App\Http\Resources\HealthCheckResource([
+            'status' => 'ok',
+            'service' => 'aggregation-api',
+            'version' => '1.0.0'
+        ])
+    );
 })->middleware(['correlation.id'])->name('api.health');
