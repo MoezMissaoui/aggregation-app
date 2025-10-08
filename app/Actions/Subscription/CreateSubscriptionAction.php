@@ -36,6 +36,13 @@ class CreateSubscriptionAction
             'canal' => $data['canal'] ?? 'api',
         ]);
 
+        // update subscriber billing status
+        $subscriber = $subscription->subscriber;
+        $subscriber->date_subscription = Carbon::now();
+        $subscriber->date_last_status_update = Carbon::now();
+        $subscriber->date_expired = $subscription->end_date;
+        $subscriber->save();
+
         return $subscription;
     }
 }
