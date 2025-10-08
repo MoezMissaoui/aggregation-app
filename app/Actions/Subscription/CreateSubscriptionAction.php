@@ -30,6 +30,7 @@ class CreateSubscriptionAction
         // Vérifier si c'est la première inscription de l'abonné
         $subscriber = Subscriber::find($data['subscriber_id']);
         $isFirstSubscription = $subscriber->subscriptions()->count() === 0;
+
         
         // Calculer la durée de l'abonnement (ajouter free_days seulement pour la première inscription)
         $subscriptionDays = $offer->frequency;
@@ -37,23 +38,22 @@ class CreateSubscriptionAction
             $subscriptionDays += $offer->free_days;
         }
 
-        $start_date = Carbon::now();
-        
+
         // Créer un nouvel abonnement
         $subscription = Subscription::create([
             'subscriber_id' => $data['subscriber_id'],
             'service_offer_id' => $data['service_offer_id'],
             'status' => 'active',
-            'start_date' => $start_date,
-            'end_date' => $start_date->addDay($subscriptionDays),
+            'start_date' => Carbon::now(),
+            'end_date' => Carbon::now()->addDay($subscriptionDays),
             'canal' => $data['canal'] ?? 'api',
         ]);
 
         // update subscriber billing status
         $subscriber = $subscription->subscriber;
-        $subscriber->date_subscription = $start_date;
-        $subscriber->date_end_trial_period = $isFirstSubscription && $offer->free_days > 0 ? $start_date->addDay($offer->free_days) : null;
-        $subscriber->date_last_status_update = $start_date;
+        $subscriber->date_subscription = Carbon::now();
+        $subscriber->date_end_trial_period = $isFirstSubscription && $offer->free_days > 0 ? Carbon::now()->addDay($offer->free_days) : null;
+        $subscriber->date_last_status_update = Carbon::now();
         $subscriber->date_expired = $subscription->end_date;
         $subscriber->save();
 
