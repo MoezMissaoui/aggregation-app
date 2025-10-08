@@ -36,7 +36,7 @@ class CancelSubscriptionAction
         $subscriptions = $query->get();
 
         if ($subscriptions->isEmpty()) {
-            throw new \Exception("No active subscriptions found for the given criteria");
+            throw new \Exception("No active subscriptions found for the given offer and partner");
         }
 
         // Marquer les abonnements comme supprimés
