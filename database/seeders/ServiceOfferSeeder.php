@@ -44,8 +44,8 @@ class ServiceOfferSeeder extends Seeder
             $serviceOffers[] = [
                 'name' => "{$service->name} - Orange Daily",
                 'tarif' => 50.000, // 50 FCFA
-                'frequency' => 1, // Daily
-                'free_days' => 0, // No free trial for daily plans
+                'frequency' => 30, // Daily
+                'free_days' => 7, // No free trial for daily plans
                 'currency' => 'XOF',
                 'service_id' => $service->id,
                 'operator_id' => $orange->id,
