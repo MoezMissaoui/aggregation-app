@@ -18,16 +18,9 @@ class CreateSubscriptionAction
             ->where('status', 'active')
             ->first();
 
-        if ($existingSubscription) {
-            // Prolonger l'abonnement existant
-            $existingSubscription->update([
-                'end' => Carbon::now()->addMonth(),
-                'updated_at' => Carbon::now(),
-            ]);
-
+        if ($existingSubscription)
             return $existingSubscription;
-        }
-
+        
         // Créer un nouvel abonnement
         $subscription = Subscription::create([
             'subscriber_id' => $data['subscriber_id'],
