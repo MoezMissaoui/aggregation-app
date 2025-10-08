@@ -2,6 +2,7 @@
 
 namespace App\Actions\Subscription;
 
+use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use App\Models\Subscriber;
 
@@ -21,7 +22,7 @@ class GetSubscriptionStatusAction
         // Récupérer les abonnements actifs du partenaire
         $subscriptions = Subscription::with('serviceOffer')
             ->where('subscriber_id', $subscriber->id)
-            ->where('status', 'active')
+            ->where('status', SubscriptionStatus::ACTIVE)
             ->whereHas('serviceOffer', function ($query) use ($data) {
                 $query->whereHas('service', function ($query) use ($data) {
                     $query->where('partner_id', $data['partner_id']);

@@ -2,9 +2,10 @@
 
 namespace App\Actions\Subscription;
 
-use App\Models\ServiceOffer;
-use App\Models\Subscriber;
+use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
+use App\Models\Subscriber;
+use App\Models\ServiceOffer;
 use Carbon\Carbon;
 
 class CreateSubscriptionAction
@@ -17,7 +18,7 @@ class CreateSubscriptionAction
         // Vérifier s'il existe déjà un abonnement actif
         $existingSubscription = Subscription::where('subscriber_id', $data['subscriber_id'])
             ->where('service_offer_id', $data['service_offer_id'])
-            ->where('status', 'active')
+            ->where('status', SubscriptionStatus::ACTIVE)
             ->first();
 
         if ($existingSubscription)
@@ -43,7 +44,7 @@ class CreateSubscriptionAction
         $subscription = Subscription::create([
             'subscriber_id' => $data['subscriber_id'],
             'service_offer_id' => $data['service_offer_id'],
-            'status' => 'active',
+            'status' => SubscriptionStatus::ACTIVE,
             'start_date' => Carbon::now(),
             'end_date' => Carbon::now()->addDay($subscriptionDays),
             'canal' => $data['canal'] ?? 'api',

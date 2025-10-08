@@ -2,17 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
     use HasFactory;
-
-    const STATUS_ACTIVE = 'active';
-    const STATUS_SUSPENDED = 'suspended';
-    const STATUS_DELETED = 'deleted';
-    const STATUS_EXPIRED = 'expired';
 
     protected $fillable = [
         'subscriber_id',
@@ -24,6 +20,7 @@ class Subscription extends Model
     ];
 
     protected $casts = [
+        'status' => SubscriptionStatus::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'created_at' => 'datetime',
@@ -75,7 +72,7 @@ class Subscription extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', self::STATUS_ACTIVE);
+        return $query->where('status', SubscriptionStatus::ACTIVE);
     }
 
     /**
@@ -83,7 +80,7 @@ class Subscription extends Model
      */
     public function scopeSuspended($query)
     {
-        return $query->where('status', self::STATUS_SUSPENDED);
+        return $query->where('status', SubscriptionStatus::SUSPENDED);
     }
 
     /**
@@ -91,7 +88,7 @@ class Subscription extends Model
      */
     public function scopeDeleted($query)
     {
-        return $query->where('status', self::STATUS_DELETED);
+        return $query->where('status', SubscriptionStatus::DELETED);
     }
 
     /**
@@ -99,7 +96,7 @@ class Subscription extends Model
      */
     public function scopeExpired($query)
     {
-        return $query->where('status', self::STATUS_EXPIRED);
+        return $query->where('status', SubscriptionStatus::EXPIRED);
     }
 
     /**
@@ -115,7 +112,7 @@ class Subscription extends Model
      */
     public function isActive()
     {
-        return $this->status === self::STATUS_ACTIVE;
+        return $this->status === SubscriptionStatus::ACTIVE;
     }
 
     /**

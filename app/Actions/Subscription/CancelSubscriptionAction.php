@@ -2,6 +2,7 @@
 
 namespace App\Actions\Subscription;
 
+use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use App\Models\Subscriber;
 use Carbon\Carbon;
@@ -20,7 +21,7 @@ class CancelSubscriptionAction
         }
 
         $query = Subscription::where('subscriber_id', $subscriber->id)
-            ->where('status', 'active');
+            ->where('status', SubscriptionStatus::ACTIVE);
 
         // Si un service_offer_id spécifique est fourni
         if (isset($data['service_offer_id'])) {
@@ -42,8 +43,8 @@ class CancelSubscriptionAction
         $unsubscribedCount = 0;
         foreach ($subscriptions as $subscription) {
             $subscription->update([
-                'status' => 'deleted',
-                'end' => Carbon::now(),
+                'status' => SubscriptionStatus::DELETED,
+                'end_date' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
             $unsubscribedCount++;
@@ -51,11 +52,11 @@ class CancelSubscriptionAction
 
         // Mettre à jour le statut de l'abonné si plus d'abonnements actifs
         $activeSubscriptions = Subscription::where('subscriber_id', $subscriber->id)
-            ->where('status', 'active')
+            ->where('status', SubscriptionStatus::ACTIVE)
             ->count();
 
         if ($activeSubscriptions === 0) {
-            $subscriber->update(['status' => 'inactive']);
+            $subscriber->update(['status' => SubscriptionStatus::INACTIVE]);
         }
 
         return [

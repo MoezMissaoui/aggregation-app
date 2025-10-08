@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\SubscriptionStatus;
 
 return new class extends Migration
 {
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_offer_id')->nullable();
             $table->foreign('service_offer_id')->references('id')->on('service_offers')->onDelete('set null');
 
-            $table->enum('status', ['active', 'suspended', 'deleted', 'expired'])->default('active');
+            $table->enum('status', SubscriptionStatus::values())->default(SubscriptionStatus::ACTIVE->value);
 
             $table->timestamp('start_date');
             $table->timestamp('end_date');
