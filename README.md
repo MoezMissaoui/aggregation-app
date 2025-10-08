@@ -1,61 +1,139 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Système d'Agrégation API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## À propos
 
-## About Laravel
+Le Système d'Agrégation est une API RESTful conçue pour gérer les abonnements et les services entre partenaires. Cette API utilise l'authentification OAuth2 avec le flux "client credentials" pour sécuriser les points d'accès.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Configuration Requise
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.1 ou supérieur
+- Composer
+- MySQL 5.7 ou supérieur
+- Extension PHP PDO MySQL
+- Extension PHP OpenSSL
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+1. Cloner le dépôt :
+```bash
+git clone [url-du-depot]
+cd aggregation_ws
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Installer les dépendances :
+```bash
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Configurer l'environnement :
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Configurer la base de données dans le fichier `.env`
 
-## Laravel Sponsors
+5. Exécuter les migrations et les seeders :
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Authentification
 
-### Premium Partners
+L'API utilise OAuth2 avec le flux "client credentials". Pour accéder aux endpoints protégés, vous devez d'abord obtenir un token d'accès.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Obtenir un Token d'Accès
 
-## Contributing
+```http
+POST /api/v1/auth/oauth2/token
+Content-Type: application/json
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+{
+    "grant_type": "client_credentials",
+    "client_id": "votre-client-id",
+    "client_secret": "votre-client-secret"
+}
+```
 
-## Code of Conduct
+### Utiliser le Token
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Incluez le token dans l'en-tête Authorization de vos requêtes :
 
-## Security Vulnerabilities
+```http
+Authorization: Bearer votre-token-access
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Endpoints API
 
-## License
+### Gestion des Abonnements
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Optin
+```http
+POST /api/v1/subscription/optin/{partner_id}
+```
+
+#### Optout
+```http
+POST /api/v1/subscription/optout/{partner_id}
+```
+
+#### Vérifier le Statut
+```http
+GET /api/v1/subscription/status/{partner_id}
+```
+
+### Vérification de Santé
+
+```http
+GET /api/health
+```
+
+## Gestion des Erreurs
+
+L'API retourne des réponses d'erreur cohérentes au format JSON :
+
+```json
+{
+    "message": "Message d'erreur",
+    "data": {
+        "errors": ["Description détaillée de l'erreur"]
+    },
+    "status_code": 4xx/5xx
+}
+```
+
+### Codes d'État HTTP
+
+- 200 : Succès
+- 400 : Requête invalide
+- 401 : Non authentifié
+- 403 : Non autorisé
+- 404 : Ressource non trouvée
+- 422 : Erreur de validation
+- 500 : Erreur serveur
+
+## Sécurité
+
+- Toutes les requêtes doivent être effectuées via HTTPS
+- Les tokens d'accès expirent après une période définie
+- Les requêtes sont limitées par rate limiting
+- Chaque requête nécessite un ID de corrélation pour le traçage
+
+## Journalisation
+
+L'API enregistre automatiquement :
+- Les requêtes entrantes
+- Les réponses sortantes
+- Les erreurs d'authentification
+- Les exceptions système
+
+## Support
+
+Pour toute assistance technique ou question, contactez l'équipe de support :
+- Email : [adresse-email-support]
+- Documentation API complète : [lien-vers-documentation]
+
+## Licence
+
+[Type de Licence] - voir le fichier LICENSE pour plus de détails.
