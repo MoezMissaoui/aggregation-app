@@ -18,10 +18,6 @@ class ApiErrorResource extends JsonResource
             'code' => $this->resource['code'] ?? 'error',
             'message' => $this->resource['message'] ?? 'An error occurred',
             'errors' => $this->resource['errors'] ?? [],
-            'debug' => $this->when(
-                config('app.debug') && config('api.response.include_debug_info', false),
-                $this->resource['debug'] ?? []
-            ),
             'timestamp' => now()->toISOString(),
             'correlation_id' => $request->get('correlation-id'),
         ];
