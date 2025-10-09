@@ -13,7 +13,7 @@ class CreateSubscriptionAction
     /**
      * Crée un nouvel abonnement ou réactive un abonnement existant
      */
-    public function execute(array $data): Subscription
+    public function execute(array $data): array
     {
         // Vérifier s'il existe déjà un abonnement actif
         $existingSubscription = Subscription::where('subscriber_id', $data['subscriber_id'])
@@ -21,8 +21,13 @@ class CreateSubscriptionAction
             ->where('status', SubscriptionStatus::ACTIVE)
             ->first();
 
-        if ($existingSubscription)
-            return $existingSubscription;
+        if ($existingSubscription) {
+            return [
+                'subscription' => $existingSubscription,
+                'is_new' => false,
+                'message' => 'already_subscribed'
+            ];
+        }
 
         $offer = ServiceOffer::find($data['service_offer_id']);
         if (!$offer)
@@ -58,6 +63,10 @@ class CreateSubscriptionAction
         $subscriber->date_expired = $subscription->end_date;
         $subscriber->save();
 
-        return $subscription;
+        return [
+            'subscription' => $subscription,
+            'is_new' => true,
+            'message' => 'subscription_created'
+        ];
     }
 }

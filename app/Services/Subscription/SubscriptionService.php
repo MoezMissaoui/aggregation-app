@@ -49,7 +49,7 @@ class SubscriptionService
             $partner = $this->validatePartnerAction->execute($partner_id);
 
             // 2. Valider l'offre de service
-            $serviceOffer = $this->validateServiceOfferAction->execute(
+            $this->validateServiceOfferAction->execute(
                 $data['service_offer_id'], 
                 $partner->id
             );
@@ -58,7 +58,7 @@ class SubscriptionService
             $subscriber = $this->createSubscriberAction->execute($data['msisdn']);
 
             // 4. Créer l'abonnement
-            $subscription = $this->createSubscriptionAction->execute([
+            $subscriptionResult = $this->createSubscriptionAction->execute([
                 'subscriber_id' => $subscriber->id,
                 'service_offer_id' => $data['service_offer_id'],
                 'canal' => $data['canal'] ?? 'api',
@@ -66,27 +66,9 @@ class SubscriptionService
 
             DB::commit();
 
-            Log::info('Subscription opt-in successful', [
-                'partner_id' => $partner_id,
-                'msisdn' => $data['msisdn'],
-                'subscription_id' => $subscription->id,
-                'service_offer_id' => $data['service_offer_id'],
-            ]);
+            Log::info('Subscription opt-in successful', $subscriptionResult);
 
-            return [
-                'subscription_id' => $subscription->id,
-                'subscriber_id' => $subscriber->id,
-                'status' => $subscription->status,
-                'start_date' => $subscription->start_date?->toISOString(),
-                'end_date' => $subscription->end_date?->toISOString(),
-                'service_offer' => [
-                    'id' => $serviceOffer->id,
-                    'name' => $serviceOffer->name,
-                    'tarif' => $serviceOffer->tarif,
-                    'frequency' => $serviceOffer->frequency,
-                    'currency' => $serviceOffer->currency,
-                ]
-            ];
+            return $subscriptionResult;
 
         } catch (\Exception $e) {
             DB::rollBack();

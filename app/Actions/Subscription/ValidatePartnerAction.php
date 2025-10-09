@@ -20,7 +20,7 @@ class ValidatePartnerAction
             throw new \Exception("Partner ID does not match authenticated user");
         }
 
-        $partner = Partner::where('partner_id', $partner_id)->first();
+        $partner = Partner::where('partner_id', $partner_id)->first(['id', 'is_active']);
 
         if (!$partner) {
             throw new ModelNotFoundException("Partner with ID {$partner_id} not found");

@@ -26,13 +26,14 @@ class OptinController extends Controller
         try {
             $result = $this->subscriptionService->optin($request->validated(), $partner_id);
             
-            // Récupérer l'abonnement avec ses relations
-            $subscription = Subscription::with(['subscriber', 'serviceOffer'])
-                ->findOrFail($result['subscription_id']);
+            // Déterminer le message approprié
+            $message = $result['is_new'] 
+                ? 'Subscription opt-in successful' 
+                : 'User is already subscribed';
 
             return ApiResponse::success(
-                new SubscriptionResource($subscription), 
-                'Subscription opt-in successful'
+                new SubscriptionResource($result['subscription']->load(['subscriber', 'serviceOffer'])), 
+                $message
             );
         } catch (\Exception $e) {
             return ApiResponse::error($e->getMessage(), 400);

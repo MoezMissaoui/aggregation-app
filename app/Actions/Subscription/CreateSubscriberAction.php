@@ -11,7 +11,7 @@ class CreateSubscriberAction
      */
     public function execute(string $msisdn): Subscriber
     {
-        $subscriber = Subscriber::where('msisdn', $msisdn)->first();
+        $subscriber = Subscriber::where('msisdn', $msisdn)->first(['id', 'msisdn']);
         if (!$subscriber) {
             $subscriber = Subscriber::create([
                 'msisdn' => $msisdn,
