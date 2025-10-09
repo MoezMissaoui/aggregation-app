@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\API\V1\Partner;
 
+use App\Services\Authentication\AuthenticationService;
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Resources\OAuth2TokenResource;
 use App\Http\Requests\OAuth2TokenRequest;
 use App\Helpers\ApiResponse;
-use App\Services\Authentication\AuthenticationService;
-use App\Http\Resources\OAuth2TokenResource;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 
 class AccessTokenController extends BaseController

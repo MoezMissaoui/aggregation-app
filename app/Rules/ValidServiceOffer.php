@@ -2,10 +2,10 @@
 
 namespace App\Rules;
 
-use App\Models\Partner;
 use App\Models\ServiceOffer;
-use Closure;
+
 use Illuminate\Contracts\Validation\ValidationRule;
+use Closure;
 
 class ValidServiceOffer implements ValidationRule
 {

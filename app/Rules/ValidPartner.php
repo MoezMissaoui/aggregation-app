@@ -3,8 +3,9 @@
 namespace App\Rules;
 
 use App\Models\Partner;
-use Closure;
+
 use Illuminate\Contracts\Validation\ValidationRule;
+use Closure;
 
 class ValidPartner implements ValidationRule
 {

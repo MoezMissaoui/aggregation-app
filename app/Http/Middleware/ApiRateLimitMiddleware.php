@@ -2,12 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ApiExceptionHandler;
 use App\Http\Resources\ApiErrorResource;
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Exceptions\ApiExceptionHandler;
+
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\Request;
+use Closure;
 
 class ApiRateLimitMiddleware
 {

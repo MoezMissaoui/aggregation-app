@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidSubscriberWithOffer;
+use App\Rules\ValidServiceOffer;
 use App\Helpers\ApiResponse;
 use App\Rules\ValidPartner;
-use App\Rules\ValidServiceOffer;
-use App\Rules\ValidSubscriberWithOffer;
-use Illuminate\Foundation\Http\FormRequest;
+
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 class SubscriptionOptoutRequest extends FormRequest
 {

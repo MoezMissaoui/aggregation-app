@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\EncryptionService;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 

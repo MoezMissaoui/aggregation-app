@@ -2,12 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\Subscriber;
-use App\Models\Subscription;
 use App\Enums\SubscriptionStatus;
-use Closure;
+use App\Models\Subscription;
+use App\Models\Subscriber;
+
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Validation\Rules\In;
+use Closure;
 
 class ValidSubscriberWithOffer implements ValidationRule
 {

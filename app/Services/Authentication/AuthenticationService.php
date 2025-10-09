@@ -4,7 +4,7 @@ namespace App\Services\Authentication;
 
 use App\Actions\Authentication\ValidateOAuth2CredentialsAction;
 use App\Actions\Authentication\GenerateAccessTokenAction;
-use App\Models\Partner;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 

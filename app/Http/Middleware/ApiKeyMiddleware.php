@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\ApiErrorResource;
-use Closure;
-use Illuminate\Http\Request;
+
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Closure;
 
 class ApiKeyMiddleware
 {

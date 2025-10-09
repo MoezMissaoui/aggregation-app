@@ -3,11 +3,12 @@
 namespace App\Http\Middleware;
     
 use App\Models\ApiLog;
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Closure;
 
 class CorrelationIdMiddleware
 {

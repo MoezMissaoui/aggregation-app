@@ -1,14 +1,12 @@
 <?php
 
-use App\Http\Controllers\API\V1\Partner\AuthTokenController;
 use App\Http\Controllers\API\V1\Partner\AccessTokenController;
-use App\Http\Controllers\API\V1\Subscription\OptinController;
 use App\Http\Controllers\API\V1\Subscription\OptoutController;
 use App\Http\Controllers\API\V1\Subscription\StatusController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\V1\Subscription\OptinController;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\V1\TestController;
-use App\Http\Controllers\API\V1\Partner\PartnerAuthController;
+
 
 /*
 |--------------------------------------------------------------------------

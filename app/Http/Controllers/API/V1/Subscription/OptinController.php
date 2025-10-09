@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\API\V1\Subscription;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SubscriptionOptinRequest;
 use App\Services\Subscription\SubscriptionService;
-use App\Helpers\ApiResponse;
+use App\Http\Requests\SubscriptionOptinRequest;
 use App\Http\Resources\SubscriptionResource;
-use App\Models\Subscription;
+use App\Http\Controllers\Controller;
+use App\Helpers\ApiResponse;
 
 class OptinController extends Controller
 {

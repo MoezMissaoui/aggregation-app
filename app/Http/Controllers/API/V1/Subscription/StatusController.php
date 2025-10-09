@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\V1\Subscription;
 
-use App\Http\Controllers\Controller;
+use App\Services\Subscription\SubscriptionService;
 use App\Http\Requests\SubscriptionStatusRequest;
 use App\Http\Resources\SubscriptionResource;
-use App\Services\Subscription\SubscriptionService;
+use App\Http\Controllers\Controller;
 use App\Helpers\ApiResponse;
 
 class StatusController extends Controller
