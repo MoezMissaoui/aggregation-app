@@ -54,16 +54,17 @@ class SubscriptionOptinRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'msisdn.required' => 'Le numéro MSISDN est requis.',
-            'msisdn.regex' => 'Le format du numéro MSISDN n\'est pas valide.',
-            'msisdn.min' => 'Le numéro MSISDN doit contenir au moins 8 caractères.',
-            'msisdn.max' => 'Le numéro MSISDN ne peut pas dépasser 20 caractères.',
-            'service_offer_id.required' => 'L\'ID de l\'offre de service est requis.',
-            'service_offer_id.integer' => 'L\'ID de l\'offre de service doit être un entier.',
-            'service_offer_id.exists' => 'L\'offre de service spécifiée n\'existe pas.',
-            'canal.string' => 'Le canal doit être une chaîne de caractères.',
-            'canal.max' => 'Le canal ne peut pas dépasser 50 caractères.',
-            'canal.in' => 'Le canal doit être l\'un des suivants: api, web, sms, ussd, ivr, mobile_app.',
+            'msisdn.required' => 'The MSISDN number is required.',
+            'msisdn.string' => 'The MSISDN number must be a string.',
+            'msisdn.regex' => 'The MSISDN number format is not valid.',
+            'msisdn.min' => 'The MSISDN number must contain at least 8 characters.',
+            'msisdn.max' => 'The MSISDN number cannot exceed 20 characters.',
+            'service_offer_id.required' => 'The service offer ID is required.',
+            'service_offer_id.integer' => 'The service offer ID must be an integer.',
+            'service_offer_id.exists' => 'The specified service offer does not exist.',
+            'canal.string' => 'The channel must be a string.',
+            'canal.max' => 'The channel cannot exceed 50 characters.',
+            'canal.in' => 'The channel must be one of the following: api, web, sms, ussd, ivr, mobile_app.',
         ];
     }
 
@@ -75,9 +76,9 @@ class SubscriptionOptinRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'msisdn' => 'numéro MSISDN',
-            'service_offer_id' => 'ID de l\'offre de service',
-            'canal' => 'canal',
+            'msisdn' => 'MSISDN number',
+            'service_offer_id' => 'service offer ID',
+            'canal' => 'channel',
         ];
     }
 
@@ -92,7 +93,7 @@ class SubscriptionOptinRequest extends FormRequest
         throw new HttpResponseException(
             ApiResponse::error(
                 ['errors' => $validator->errors()],
-                'Erreur de validation',
+                'Validation error',
                 422
             )
         );

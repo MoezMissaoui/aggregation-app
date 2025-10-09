@@ -32,6 +32,11 @@ class SubscriptionStatusRequest extends FormRequest
                 'min:8',
                 'max:20'
             ],
+            'service_offer_id' => [
+                'required',
+                'integer',
+                'exists:service_offers,id'
+            ],
         ];
     }
 
@@ -43,10 +48,13 @@ class SubscriptionStatusRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'msisdn.required' => 'Le numéro MSISDN est requis.',
-            'msisdn.regex' => 'Le format du numéro MSISDN n\'est pas valide.',
-            'msisdn.min' => 'Le numéro MSISDN doit contenir au moins 8 caractères.',
-            'msisdn.max' => 'Le numéro MSISDN ne peut pas dépasser 20 caractères.',
+            'msisdn.required' => 'The MSISDN number is required.',
+            'msisdn.regex' => 'The MSISDN number format is not valid.',
+            'msisdn.min' => 'The MSISDN number must contain at least 8 characters.',
+            'msisdn.max' => 'The MSISDN number cannot exceed 20 characters.',
+            'service_offer_id.required' => 'The Service Offer ID is required.',
+            'service_offer_id.exists' => 'The Service Offer ID does not exist.',
+            'service_offer_id.integer' => 'The Service Offer ID must be an integer.',
         ];
     }
 
@@ -58,7 +66,8 @@ class SubscriptionStatusRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'msisdn' => 'numéro MSISDN',
+            'msisdn' => 'MSISDN number',
+            'service_offer_id' => 'Service Offer ID',
         ];
     }
 
@@ -73,7 +82,7 @@ class SubscriptionStatusRequest extends FormRequest
         throw new HttpResponseException(
             ApiResponse::error(
                 ['errors' => $validator->errors()],
-                'Erreur de validation',
+                'Validation Error',
                 422
             )
         );
