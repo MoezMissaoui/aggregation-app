@@ -50,14 +50,14 @@ class Partner extends Authenticatable
     }
 
     /**
-     * Verify if the provided client secret matches the partner's secret.
+     * Verify if the provided partner secret matches the partner's secret.
      *
-     * @param string $clientSecret
+     * @param string $partnerSecret
      * @return bool
      */
-    public function verifyClientSecret(string $clientSecret): bool
+    public function verifyPartnerSecret(string $partnerSecret): bool
     {
-        return decrypt_sensitive($this->partner_secret, config('app.encryption_key')) === $clientSecret;
+        return decrypt_sensitive($this->partner_secret, config('app.encryption_key')) === $partnerSecret;
     }
 
     /**

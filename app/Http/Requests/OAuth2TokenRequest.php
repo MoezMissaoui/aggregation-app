@@ -26,8 +26,8 @@ class OAuth2TokenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required|string|exists:partners,partner_id',
-            'client_secret' => 'required|string',
+            'partner_id' => 'required|string|exists:partners,partner_id',
+            'partner_secret' => 'required|string',
             'grant_type' => 'required|string|in:client_credentials'
         ];
     }
@@ -40,11 +40,11 @@ class OAuth2TokenRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'client_id.required' => 'The client ID is required.',
-            'client_id.string' => 'The client ID must be a string.',
-            'client_id.exists' => 'The provided client ID does not exist.',
-            'client_secret.required' => 'The client secret is required.',
-            'client_secret.string' => 'The client secret must be a string.',
+            'partner_id.required' => 'The partner ID is required.',
+            'partner_id.string' => 'The partner ID must be a string.',
+            'partner_id.exists' => 'The provided partner ID does not exist.',
+            'partner_secret.required' => 'The partner secret is required.',
+            'partner_secret.string' => 'The partner secret must be a string.',
             'grant_type.required' => 'The grant type is required.',
             'grant_type.string' => 'The grant type must be a string.',
             'grant_type.in' => 'The grant type must be client_credentials.',
@@ -59,8 +59,8 @@ class OAuth2TokenRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'client_id' => 'client ID',
-            'client_secret' => 'client secret',
+            'partner_id' => 'partner ID',
+            'partner_secret' => 'partner secret',
             'grant_type' => 'grant type',
         ];
     }

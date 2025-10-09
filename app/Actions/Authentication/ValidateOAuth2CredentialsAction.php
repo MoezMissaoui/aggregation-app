@@ -18,8 +18,8 @@ class ValidateOAuth2CredentialsAction
      */
     public function execute(array $credentials): Partner
     {
-        $clientId = $credentials['client_id'];
-        $clientSecret = $credentials['client_secret'];
+        $partnerId = $credentials['partner_id'];
+        $partnerSecret = $credentials['partner_secret'];
         $grantType = $credentials['grant_type'];
 
         // Validate grant type
@@ -27,18 +27,18 @@ class ValidateOAuth2CredentialsAction
             throw new Exception('Unsupported grant type');
         }
 
-        // Find the partner by client_id (partner_id)
-        $partner = Partner::where('partner_id', $clientId)
+        // Find the partner by partner_id
+        $partner = Partner::where('partner_id', $partnerId)
                          ->where('is_active', true)
                          ->first();
 
         if (!$partner) {
-            throw new ModelNotFoundException('Inactive client');
+            throw new ModelNotFoundException('Inactive partner');
         }
 
-        // Verify the client secret using the model method
-        if (!$partner->verifyClientSecret($clientSecret)) {
-            throw new Exception('Invalid client secret');
+        // Verify the partner secret using the model method
+        if (!$partner->verifyPartnerSecret($partnerSecret)) {
+            throw new Exception('Invalid partner secret');
         }
 
         return $partner;
