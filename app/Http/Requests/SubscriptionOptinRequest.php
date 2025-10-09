@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Helpers\ApiResponse;
+use App\Rules\ValidPartner;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -18,6 +19,20 @@ class SubscriptionOptinRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        // On récupère le paramètre 'partner_id' de la route
+        // et on l'ajoute aux données de la requête.
+        $this->merge([
+            'partner_id' => $this->route('partner_id'),
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -25,6 +40,7 @@ class SubscriptionOptinRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'partner_id' => ['required', 'string', new ValidPartner()],
             'msisdn' => [
                 'required',
                 'string',
@@ -54,6 +70,8 @@ class SubscriptionOptinRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'partner_id.required' => 'The partner ID is required.',
+            'partner_id.string' => 'The partner ID must be a string.',
             'msisdn.required' => 'The MSISDN number is required.',
             'msisdn.string' => 'The MSISDN number must be a string.',
             'msisdn.regex' => 'The MSISDN number format is not valid.',
