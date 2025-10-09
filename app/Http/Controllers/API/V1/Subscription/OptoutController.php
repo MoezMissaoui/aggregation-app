@@ -25,13 +25,9 @@ class OptoutController extends Controller
     {
         try {
             $result = $this->subscriptionService->optout($request->validated(), $partner_id);
-            
-            // Récupérer l'abonnement avec ses relations
-            $subscription = Subscription::with(['subscriber', 'serviceOffer'])
-                ->findOrFail($result['subscription_id']);
-            
+        
             return ApiResponse::success(
-                new SubscriptionResource($subscription), 
+                $result, 
                 'Subscription opt-out successful'
             );
         } catch (\Exception $e) {

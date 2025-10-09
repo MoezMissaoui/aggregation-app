@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Helpers\ApiResponse;
 use App\Rules\ValidPartner;
+use App\Rules\ValidServiceOffer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -51,7 +52,7 @@ class SubscriptionOptinRequest extends FormRequest
             'service_offer_id' => [
                 'required',
                 'integer',
-                'exists:service_offers,id'
+                new ValidServiceOffer($this->partner_id),
             ],
             'canal' => [
                 'nullable',
@@ -79,7 +80,6 @@ class SubscriptionOptinRequest extends FormRequest
             'msisdn.max' => 'The MSISDN number cannot exceed 20 characters.',
             'service_offer_id.required' => 'The service offer ID is required.',
             'service_offer_id.integer' => 'The service offer ID must be an integer.',
-            'service_offer_id.exists' => 'The specified service offer does not exist.',
             'canal.string' => 'The channel must be a string.',
             'canal.max' => 'The channel cannot exceed 50 characters.',
             'canal.in' => 'The channel must be one of the following: api, web, sms, ussd, ivr, mobile_app.',
@@ -94,6 +94,7 @@ class SubscriptionOptinRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'partner_id' => 'partner ID',
             'msisdn' => 'MSISDN number',
             'service_offer_id' => 'service offer ID',
             'canal' => 'channel',

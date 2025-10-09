@@ -20,20 +20,9 @@ class CancelSubscriptionAction
             throw new \Exception("Subscriber with MSISDN {$data['msisdn']} not found");
         }
 
-        $query = Subscription::where('subscriber_id', $subscriber->id)
-            ->where('status', SubscriptionStatus::ACTIVE);
-
-        // Si un service_offer_id spécifique est fourni
-        if (isset($data['service_offer_id'])) {
-            $query->where('service_offer_id', $data['service_offer_id']);
-        } else {
-            // Sinon, filtrer par partner_id via la relation service_offer
-            $query->whereHas('serviceOffer', function ($q) use ($data) {
-                $q->where('partner_id', $data['partner_id']);
-            });
-        }
-
-        $subscriptions = $query->get();
+        $subscriptions = Subscription::where('subscriber_id', $subscriber->id)
+            ->where('status', SubscriptionStatus::ACTIVE)
+            ->where('service_offer_id', $data['service_offer_id'])->get();
 
         if ($subscriptions->isEmpty()) {
             throw new \Exception("No active subscriptions found for the given offer and partner");
@@ -58,6 +47,10 @@ class CancelSubscriptionAction
         if ($activeSubscriptions === 0) {
             $subscriber->update(['status' => SubscriptionStatus::INACTIVE]);
         }
+
+        // Mettre à jour la date de dernière désinscription
+        $subscriber->date_last_unsub = Carbon::now();
+        $subscriber->save();
 
         return [
             'unsubscribed_count' => $unsubscribedCount,

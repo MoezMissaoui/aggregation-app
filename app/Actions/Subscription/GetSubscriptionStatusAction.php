@@ -15,23 +15,25 @@ class GetSubscriptionStatusAction
      */
     public function execute(array $data): Subscription
     {
-        $subscriber = Subscriber::where('msisdn', $data['msisdn'])->first();
+        $subscriber = Subscriber::where('msisdn', $data['data']['msisdn'])->first();
 
         if (!$subscriber) {
-            throw new \Exception("Subscriber with MSISDN {$data['msisdn']} not found");
+            throw new \Exception("Subscriber with MSISDN {$data['data']['msisdn']} not found");
         }
 
         // Récupérer le dernier abonnement actif du partenaire
         $subscription = Subscription::with('serviceOffer')
             ->where('subscriber_id', $subscriber->id)
-            ->where('status', SubscriptionStatus::ACTIVE)
-            ->whereHas('serviceOffer', function ($query) use ($data) {
-                $query->whereHas('service', function ($query) use ($data) {
-                    $query->where('partner_id', $data['partner_id']);
-                });
+            ->where('service_offer_id', $data['data']['service_offer_id'])
+            ->whereHas('serviceOffer.service.partner', function ($query) use ($data) {
+                $query->where('partner_id', $data['partner_id']);
             })
             ->orderBy('created_at', 'desc')
             ->first();
+
+        if (!$subscription) {
+            throw new \Exception("No subscription found for service offer ID {$data['data']['service_offer_id']}");
+        }
 
         return $subscription->load('subscriber');
     }

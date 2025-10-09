@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Helpers\ApiResponse;
 use App\Rules\ValidPartner;
+use App\Rules\ValidServiceOffer;
+use App\Rules\ValidSubscriberWithOffer;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -46,12 +48,13 @@ class SubscriptionStatusRequest extends FormRequest
                 'string',
                 'regex:/^[0-9+\-\s()]+$/',
                 'min:8',
-                'max:20'
+                'max:20',
+                'exists:subscribers,msisdn',
             ],
             'service_offer_id' => [
                 'required',
                 'integer',
-                'exists:service_offers,id'
+                new ValidServiceOffer($this->partner_id ?? ''),
             ],
         ];
     }
@@ -70,8 +73,8 @@ class SubscriptionStatusRequest extends FormRequest
             'msisdn.regex' => 'The MSISDN number format is not valid.',
             'msisdn.min' => 'The MSISDN number must contain at least 8 characters.',
             'msisdn.max' => 'The MSISDN number cannot exceed 20 characters.',
+            'msisdn.exists' => 'The MSISDN number does not exist in the system.',
             'service_offer_id.required' => 'The Service Offer ID is required.',
-            'service_offer_id.exists' => 'The Service Offer ID does not exist.',
             'service_offer_id.integer' => 'The Service Offer ID must be an integer.',
         ];
     }

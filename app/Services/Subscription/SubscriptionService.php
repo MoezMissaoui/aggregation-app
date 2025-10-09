@@ -2,9 +2,7 @@
 
 namespace App\Services\Subscription;
 
-use App\Actions\Subscription\ValidatePartnerAction;
 use App\Actions\Subscription\CreateSubscriberAction;
-use App\Actions\Subscription\ValidateServiceOfferAction;
 use App\Actions\Subscription\CreateSubscriptionAction;
 use App\Actions\Subscription\CancelSubscriptionAction;
 use App\Actions\Subscription\GetSubscriptionStatusAction;
@@ -14,24 +12,18 @@ use Illuminate\Support\Facades\Log;
 
 class SubscriptionService
 {
-    protected ValidatePartnerAction $validatePartnerAction;
     protected CreateSubscriberAction $createSubscriberAction;
-    protected ValidateServiceOfferAction $validateServiceOfferAction;
     protected CreateSubscriptionAction $createSubscriptionAction;
     protected CancelSubscriptionAction $cancelSubscriptionAction;
     protected GetSubscriptionStatusAction $getSubscriptionStatusAction;
 
     public function __construct(
-        ValidatePartnerAction $validatePartnerAction,
         CreateSubscriberAction $createSubscriberAction,
-        ValidateServiceOfferAction $validateServiceOfferAction,
         CreateSubscriptionAction $createSubscriptionAction,
         CancelSubscriptionAction $cancelSubscriptionAction,
         GetSubscriptionStatusAction $getSubscriptionStatusAction
     ) {
-        $this->validatePartnerAction = $validatePartnerAction;
         $this->createSubscriberAction = $createSubscriberAction;
-        $this->validateServiceOfferAction = $validateServiceOfferAction;
         $this->createSubscriptionAction = $createSubscriptionAction;
         $this->cancelSubscriptionAction = $cancelSubscriptionAction;
         $this->getSubscriptionStatusAction = $getSubscriptionStatusAction;
@@ -45,19 +37,11 @@ class SubscriptionService
         DB::beginTransaction();
 
         try {
-            // 1. Valider le partenaire
-            $partner = $this->validatePartnerAction->execute($partner_id);
 
-            // 2. Valider l'offre de service
-            $this->validateServiceOfferAction->execute(
-                $data['service_offer_id'], 
-                $partner->id
-            );
-
-            // 3. Créer ou récupérer l'abonné
+            // 1. Créer ou récupérer l'abonné
             $subscriber = $this->createSubscriberAction->execute($data['msisdn']);
 
-            // 4. Créer l'abonnement
+            // 2. Créer l'abonnement
             $subscriptionResult = $this->createSubscriptionAction->execute([
                 'subscriber_id' => $subscriber->id,
                 'service_offer_id' => $data['service_offer_id'],
@@ -89,14 +73,11 @@ class SubscriptionService
         DB::beginTransaction();
 
         try {
-            // 1. Valider le partenaire
-            $partner = $this->validatePartnerAction->execute($partner_id);
 
-            // 2. Annuler l'abonnement
+            // 1. Annuler l'abonnement
             $result = $this->cancelSubscriptionAction->execute([
                 'msisdn' => $data['msisdn'],
-                'service_offer_id' => $data['service_offer_id'] ?? null,
-                'partner_id' => $partner->id,
+                'service_offer_id' => $data['service_offer_id'] ?? null
             ]);
 
             DB::commit();
@@ -127,13 +108,11 @@ class SubscriptionService
     public function getStatus(array $data, string $partner_id): Subscription
     {
         try {
-            // 1. Valider le partenaire
-            $partner = $this->validatePartnerAction->execute($partner_id);
 
-            // 2. Récupérer le statut des abonnements
+            // 1. Récupérer le statut des abonnements
             $result = $this->getSubscriptionStatusAction->execute([
-                'msisdn' => $data['msisdn'],
-                'partner_id' => $partner->id,
+                'data' => $data,
+                'partner_id' => $partner_id,
             ]);
 
             return $result;
