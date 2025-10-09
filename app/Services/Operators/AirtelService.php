@@ -7,7 +7,6 @@ use App\Services\Traits\OperatorServiceResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Exception;
-use Symfony\Component\Console\Output\NullOutput;
 
 /**
  * AirtelService - Service class for interacting with Airtel operator APIs

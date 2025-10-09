@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 if (!function_exists('create_token')) {
     /**
      * Create a token for the given client.
