@@ -140,4 +140,20 @@ class Subscription extends Model
     {
         return max(0, (int) $this->date_subscription->diffInDays(now()));
     }
+
+    /**
+     * Efficiently check if there are no transactions without counting rows.
+     */
+    public function isNoTransactions()
+    {
+        return $this->transactions()->doesntExist();
+    }
+
+    /**
+     * Latest transaction relation for eager-loading.
+     */
+    public function latestTransaction()
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
+    }
 }

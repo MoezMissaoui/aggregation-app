@@ -98,4 +98,12 @@ class ServiceOffer extends Model
     {
         return $query->where('service_id', $serviceId);
     }
+
+    /**
+     * Scope to get auto-renew offers.
+     */
+    public function scopeAutoRenew($query)
+    {
+        return $query->where('auto_renew', true);
+    }
 }
