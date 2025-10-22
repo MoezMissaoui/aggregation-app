@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\TransactionStatus;
 
 class Transaction extends Model
 {
@@ -12,12 +13,17 @@ class Transaction extends Model
     protected $fillable = [
         'subscription_id',
         'price',
+        'next_payment_date',
+        'status',
+        'payment_call_response',
     ];
 
     protected $casts = [
         'price' => 'decimal:3',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'status' => TransactionStatus::class,
+        'payment_call_response' => 'array',
     ];
 
     /**

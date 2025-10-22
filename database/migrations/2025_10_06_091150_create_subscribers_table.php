@@ -14,16 +14,6 @@ return new class extends Migration
         Schema::create('subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('msisdn');
-
-            $table->timestamp('date_subscription')->nullable();
-            $table->timestamp('date_last_status_update')->nullable();
-            $table->timestamp('date_end_trial_period')->nullable();
-            $table->timestamp('date_last_unsub')->nullable();
-            $table->timestamp('date_first_success_payment')->nullable();
-
-            $table->string('billing_status')->nullable();
-            $table->timestamp('date_expired')->nullable();
-
             $table->timestamps();
         });
     }

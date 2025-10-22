@@ -14,6 +14,7 @@ class Log extends Model
         'subscription_id',
         'service_id',
         'service_offer_id',
+        'transaction_id',
         'reference',
         'event_type',
         'request',
@@ -57,6 +58,14 @@ class Log extends Model
     public function serviceOffer()
     {
         return $this->belongsTo(ServiceOffer::class);
+    }
+
+    /**
+     * Get the transaction that owns the log.
+     */
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
     }
 
     /**

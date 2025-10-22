@@ -46,6 +46,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 50.000, // 50 FCFA
                 'frequency' => 30, // Daily
                 'free_days' => 7, // No free trial for daily plans
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $service->id,
                 'operator_id' => $orange->id,
@@ -60,6 +61,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 300.000, // 300 FCFA
                 'frequency' => 7, // Weekly
                 'free_days' => 3, // 3 days free trial (less than 7)
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $service->id,
                 'operator_id' => $orange->id,
@@ -75,6 +77,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 45.000, // 45 FCFA
                 'frequency' => 1, // Daily
                 'free_days' => 0, // No free trial for daily plans
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $service->id,
                 'operator_id' => $mtn->id,
@@ -89,6 +92,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 1000.000, // 1000 FCFA
                 'frequency' => 30, // Monthly
                 'free_days' => 7, // 7 days free trial (less than 30)
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $service->id,
                 'operator_id' => $mtn->id,
@@ -105,6 +109,7 @@ class ServiceOfferSeeder extends Seeder
                     'tarif' => 55.000, // 55 FCFA
                     'frequency' => 1, // Daily
                     'free_days' => 0, // No free trial for daily plans
+                    'grace_period' => 14, // 14 days grace period
                     'currency' => 'XOF',
                     'service_id' => $service->id,
                     'operator_id' => $moov->id,
@@ -119,6 +124,7 @@ class ServiceOfferSeeder extends Seeder
                     'tarif' => 350.000, // 350 FCFA
                     'frequency' => 7, // Weekly
                     'free_days' => 2, // 2 days free trial (less than 7)
+                    'grace_period' => 14, // 14 days grace period
                     'currency' => 'XOF',
                     'service_id' => $service->id,
                     'operator_id' => $moov->id,
@@ -136,6 +142,7 @@ class ServiceOfferSeeder extends Seeder
                     'tarif' => 75.000, // 75 FCFA
                     'frequency' => 1, // Daily
                     'free_days' => 0, // No free trial for daily plans
+                    'grace_period' => 14, // 14 days grace period
                     'currency' => 'XOF',
                     'service_id' => $service->id,
                     'operator_id' => $telecel->id,
@@ -150,6 +157,7 @@ class ServiceOfferSeeder extends Seeder
                     'tarif' => 1500.000, // 1500 FCFA
                     'frequency' => 30, // Monthly
                     'free_days' => 14, // 14 days free trial (less than 30)
+                    'grace_period' => 14, // 14 days grace period
                     'currency' => 'XOF',
                     'service_id' => $service->id,
                     'operator_id' => $telecel->id,
@@ -169,6 +177,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 25.000, // 25 FCFA (50% discount)
                 'frequency' => 1, // Daily
                 'free_days' => 0, // No free trial for daily plans
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $newsService->id,
                 'operator_id' => $orange->id,
@@ -183,6 +192,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 20.000, // 20 FCFA (student discount)
                 'frequency' => 1, // Daily
                 'free_days' => 0, // No free trial for daily plans
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $newsService->id,
                 'operator_id' => $mtn->id,
@@ -201,6 +211,7 @@ class ServiceOfferSeeder extends Seeder
                 'tarif' => 100.000, // 100 FCFA
                 'frequency' => 1, // Daily
                 'free_days' => 0, // No free trial for discontinued service
+                'grace_period' => 14, // 14 days grace period
                 'currency' => 'XOF',
                 'service_id' => $sportsService->id,
                 'operator_id' => $orange->id,

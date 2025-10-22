@@ -28,33 +28,18 @@ class CancelSubscriptionAction
             throw new \Exception("No active subscriptions found for the given offer and partner");
         }
 
+
         // Marquer les abonnements comme supprimés
-        $unsubscribedCount = 0;
         foreach ($subscriptions as $subscription) {
             $subscription->update([
                 'status' => SubscriptionStatus::DELETED,
-                'end_date' => Carbon::now(),
-                'updated_at' => Carbon::now(),
+                'date_last_status_update' => Carbon::now(),
+                'date_last_unsub' => Carbon::now()
             ]);
-            $unsubscribedCount++;
         }
-
-        // Mettre à jour le statut de l'abonné si plus d'abonnements actifs
-        $activeSubscriptions = Subscription::where('subscriber_id', $subscriber->id)
-            ->where('status', SubscriptionStatus::ACTIVE)
-            ->count();
-
-        if ($activeSubscriptions === 0) {
-            $subscriber->update(['status' => SubscriptionStatus::INACTIVE]);
-        }
-
-        // Mettre à jour la date de dernière désinscription
-        $subscriber->date_last_unsub = Carbon::now();
-        $subscriber->save();
 
         return [
-            'unsubscribed_count' => $unsubscribedCount,
-            'subscriber_status' => $subscriber->fresh()->status,
+            'subscriber' => $subscriber->load('subscriptions'),
         ];
     }
 }

@@ -10,23 +10,10 @@ class Subscriber extends Model
     use HasFactory;
 
     protected $fillable = [
-        'msisdn',
-        'date_subscription',
-        'date_last_status_update',
-        'date_end_trial_period',
-        'date_last_unsub',
-        'date_first_success_payment',
-        'billing_status',
-        'date_expired',
+        'msisdn'
     ];
 
     protected $casts = [
-        'date_subscription' => 'datetime',
-        'date_last_status_update' => 'datetime',
-        'date_end_trial_period' => 'datetime',
-        'date_last_unsub' => 'datetime',
-        'date_first_success_payment' => 'datetime',
-        'date_expired' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -85,29 +72,5 @@ class Subscriber extends Model
     public function scopeActive($query)
     {
         return $query->where('date_expired', '>', now());
-    }
-
-    /**
-     * Check if subscriber is in trial period.
-     */
-    public function isInTrialPeriod()
-    {
-        return $this->date_end_trial_period > now();
-    }
-
-    /**
-     * Check if subscriber is expired.
-     */
-    public function isExpired()
-    {
-        return $this->date_expired < now();
-    }
-
-    /**
-     * Get days since subscription.
-     */
-    public function daysSinceSubscription()
-    {
-        return max(0, (int) $this->date_subscription->diffInDays(now()));
     }
 }

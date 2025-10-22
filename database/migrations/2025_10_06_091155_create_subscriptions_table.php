@@ -23,8 +23,14 @@ return new class extends Migration
 
             $table->enum('status', SubscriptionStatus::values())->default(SubscriptionStatus::ACTIVE->value);
 
-            $table->timestamp('start_date');
-            $table->timestamp('end_date');
+            $table->timestamp('date_subscription')->nullable();
+            $table->timestamp('date_last_status_update')->nullable();
+            $table->timestamp('date_end_free_period')->nullable();
+            $table->timestamp('date_last_unsub')->nullable();
+            $table->timestamp('date_first_success_payment')->nullable();
+
+            $table->string('billing_status')->nullable();
+            $table->timestamp('date_expired')->nullable();
 
             $table->string('canal');
 

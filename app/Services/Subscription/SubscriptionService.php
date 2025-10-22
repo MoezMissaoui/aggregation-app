@@ -86,7 +86,6 @@ class SubscriptionService
             Log::info('Subscription opt-out successful', [
                 'partner_id' => $partner_id,
                 'msisdn' => $data['msisdn'],
-                'unsubscribed_count' => $result['unsubscribed_count'],
                 'service_offer_id' => $data['service_offer_id'] ?? null,
             ]);
 

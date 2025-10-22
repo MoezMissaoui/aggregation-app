@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TransactionStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,9 @@ return new class extends Migration
             $table->foreign('subscription_id')->references('id')->on('subscriptions')->onDelete('set null');
 
             $table->decimal('price', 10, 3);
-            
+            $table->timestamp('next_payment_date')->nullable();
+            $table->enum('status', TransactionStatus::values())->nullable();
+
             $table->timestamps();
         });
     }

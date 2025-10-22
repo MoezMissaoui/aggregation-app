@@ -17,8 +17,18 @@ class SubscriptionResource extends JsonResource
         return [
             'subscription_id' => $this->id,
             'status' => $this->status,
-            'start_date' => $this->start_date?->toISOString(),
-            'end_date' => $this->end_date?->toISOString(),
+
+            'date_subscription' => $this->date_subscription?->toISOString(),
+            'date_last_status_update' => $this->date_last_status_update?->toISOString(),
+            'date_end_free_period' => $this->date_end_free_period?->toISOString(),
+            'date_last_unsub' => $this->date_last_unsub?->toISOString(),
+            'date_first_success_payment' => $this->date_first_success_payment?->toISOString(),
+            'billing_status' => $this->billing_status,
+            'date_expired' => $this->date_expired?->toISOString(),
+            'is_in_trial_period' => $this->isInFreePeriod(),
+            'is_expired' => $this->isExpired(),
+            'days_since_subscription' => $this->daysSinceSubscription(),
+
             'canal' => $this->canal,
             'subscriber' => new SubscriberResource($this->whenLoaded('subscriber')),
             'service_offer' => new ServiceOfferResource($this->whenLoaded('serviceOffer')),

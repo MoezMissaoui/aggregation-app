@@ -25,6 +25,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('service_offer_id')->nullable();
             $table->foreign('service_offer_id')->references('id')->on('service_offers')->onDelete('set null');
+
+            $table->unsignedBigInteger('transaction_id')->nullable();
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('set null');
             
             $table->string('reference')->nullable();
             $table->string('event_type');
